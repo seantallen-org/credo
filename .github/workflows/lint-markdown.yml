@@ -17,5 +17,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4.1.1
       - name: Lint Markdown files
-        run:
-          docker run -v $PWD:/workdir ghcr.io/igorshubovych/markdownlint-cli:v0.44.0 "*.md"
+        uses: docker://github/super-linter:v3.8.3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_ALL_CODEBASE: true
+          VALIDATE_MD: true
