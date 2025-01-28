@@ -1,5 +1,7 @@
 {
-  "packages": ["credo"],
+  "packages": [
+    "credo"
+  ],
   "deps": [
     {
       "locator": "github.com/ponylang/appdirs.git",
@@ -15,7 +17,7 @@
     "homepage": "https://github.com/seantallen-org/credo",
     "license": "MIT",
     "documentation_url": "",
-    "version": "0.0.0",
+    "version": "0.1.0",
     "name": "credo"
   }
 }
