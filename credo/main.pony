@@ -20,7 +20,7 @@ actor Main
 
     try
       let config_dir = AppDirs(env.vars, "credo").user_config_dir()?
-      let config = ConfigReader(FileAuth(env.root), config_dir)
+      let config = Config.load(FileAuth(env.root), config_dir)
       match config
       | let devenvs: Array[Environment] val =>
         match cmd.fullname()

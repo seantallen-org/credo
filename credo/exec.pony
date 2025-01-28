@@ -1,9 +1,9 @@
-use @execvpe[I32](path: Pointer[U8] tag, argp: Pointer[Pointer[U8] tag] tag,
+use @execvpe[I32](path: Pointer[U8] tag,
+  argp: Pointer[Pointer[U8] tag] tag,
   envp: Pointer[Pointer[U8] tag] tag)
 
 primitive StartContainer
   fun apply(devenv: Environment) =>
-    let path = "docker"
     let args: Array[String] val = recover val
       let mounts: Array[String] = []
       for m in devenv.mounts.values() do
@@ -39,14 +39,12 @@ primitive StartContainer
       args1.>append(mounts).>append(args2)
     end
 
-    let vars: Array[String] val = []
     let argsp = MakeArgv(args)
-    let varsp = MakeArgv(vars)
-    @execvpe(path.cstring(), argsp.cpointer(), varsp.cpointer())
+    let varsp = MakeArgv([])
+    @execvpe("docker".cstring(), argsp.cpointer(), varsp.cpointer())
 
 primitive OpenShell
   fun apply(devenv: Environment) =>
-    let path = "docker"
     let args: Array[String] val =
       [
         "docker"
@@ -56,10 +54,9 @@ primitive OpenShell
         devenv.shell
       ]
 
-    let vars: Array[String] val = []
     let argsp = MakeArgv(args)
-    let varsp = MakeArgv(vars)
-    @execvpe(path.cstring(), argsp.cpointer(), varsp.cpointer())
+    let varsp = MakeArgv([])
+    @execvpe("docker".cstring(), argsp.cpointer(), varsp.cpointer())
 
 primitive MakeArgv
   fun apply(args: Array[String] box): Array[Pointer[U8] tag] =>

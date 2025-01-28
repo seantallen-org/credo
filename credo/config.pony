@@ -4,10 +4,10 @@ use "json"
 primitive NoConfigFile
 primitive ConfigParseError
 
-type ConfigReadResult is (Array[Environment] val | NoConfigFile | ConfigParseError)
+type ConfigLoadResult is (Array[Environment] val | NoConfigFile | ConfigParseError)
 
-primitive ConfigReader
-  fun apply(auth: FileAuth, config_dir: String): ConfigReadResult =>
+primitive Config
+  fun load(auth: FileAuth, config_dir: String): ConfigLoadResult =>
     let caps = recover val FileCaps.>set(FileRead).>set(FileStat) end
 
     try
@@ -15,7 +15,7 @@ primitive ConfigReader
         FilePath(auth, config_dir + "/config.json", caps)) as File
       do
         try
-          let json = get_json_config(file)?
+          let json = _get_json_config(file)?
           ConfigParser(json)?
         else
           ConfigParseError
@@ -25,7 +25,7 @@ primitive ConfigReader
       NoConfigFile
     end
 
-  fun get_json_config(file: File): JsonType val ? =>
+  fun _get_json_config(file: File): JsonType val ? =>
     let config = file.read_string(file.size())
     let doc = recover val JsonDoc.>parse(consume config)? end
     doc.data
