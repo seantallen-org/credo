@@ -1,0 +1,24 @@
+name: Compiles
+
+on: pull_request_target
+
+concurrency:
+  group: compiles-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  compiles:
+    name: Compiles
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/ponylang/shared-docker-ci-x86-64-unknown-linux-builder:latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
+      - name: Compile
+        run: |
+          corral fetch
+          corral run -- ponyc credo -o build
