@@ -70,7 +70,6 @@ $(binary): $(GEN_FILES) $(SOURCE_FILES) | $(BUILD_DIR)
 	corral run -- ponyc $(PONYC_FLAGS) $(LINKER) $(SRC_DIR) -o $(BUILD_DIR)
 
 install: $(binary)
-	@echo "install"
 	mkdir -p $(DESTDIR)$(prefix)/bin
 	cp $^ $(DESTDIR)$(prefix)/bin
 

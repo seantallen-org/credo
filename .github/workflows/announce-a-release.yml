@@ -1,0 +1,54 @@
+name: Announce A Release
+
+on:
+  push:
+    tags: 'announce-[0-9]+.[0-9]+.[0-9]+'
+
+concurrency: announce-a-release
+
+permissions:
+  packages: read
+  contents: write
+
+jobs:
+  announce:
+    name: Announcements
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4.1.1
+        with:
+          ref: "main"
+          token: ${{ secrets.RELEASE_TOKEN }}
+      - name: Release notes
+        uses: docker://ghcr.io/ponylang/release-bot-action:0.6.3
+        with:
+          entrypoint: publish-release-notes-to-github
+        env:
+          RELEASE_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+
+  post-announcement:
+    name: Tasks to run after the release has been announced
+    needs:
+      - announce
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4.1.1
+        with:
+          ref: "main"
+          token: ${{ secrets.RELEASE_TOKEN }}
+      - name: Rotate release notes
+        uses: docker://ghcr.io/ponylang/release-bot-action:0.6.3
+        with:
+          entrypoint: rotate-release-notes
+        env:
+          GIT_USER_NAME: "Sean T. Allen"
+          GIT_USER_EMAIL: "sean@seantallen.com"
+      - name: Delete announcement trigger tag
+        uses: docker://ghcr.io/ponylang/release-bot-action:0.6.3
+        with:
+          entrypoint: delete-announcement-tag
+        env:
+          GIT_USER_NAME: "Sean T. Allen"
+          GIT_USER_EMAIL: "sean@seantallen.com"
