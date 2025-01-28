@@ -53,7 +53,7 @@ PACKAGE=${APPLICATION_NAME}-${TRIPLE}
 # Build application installation
 echo -e "\e[34mBuilding ${APPLICATION_NAME}...\e[0m"
 make install prefix="${BUILD_DIR}" arch=${ARCH} \
-  version="${APPLICATION_VERSION}"
+  version="${APPLICATION_VERSION}" static=true linker=bfd
 
 # Asset information
 ASSET_FILE=${PACKAGE_DIR}/${PACKAGE}.tar.gz

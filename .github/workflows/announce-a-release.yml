@@ -21,7 +21,7 @@ jobs:
           ref: "main"
           token: ${{ secrets.RELEASE_TOKEN }}
       - name: Release notes
-        uses: docker://ghcr.io/ponylang/release-bot-action:0.6.3
+        uses: docker://ghcr.io/ponylang/release-bot-action:0.6.4
         with:
           entrypoint: publish-release-notes-to-github
         env:
@@ -39,14 +39,14 @@ jobs:
           ref: "main"
           token: ${{ secrets.RELEASE_TOKEN }}
       - name: Rotate release notes
-        uses: docker://ghcr.io/ponylang/release-bot-action:0.6.3
+        uses: docker://ghcr.io/ponylang/release-bot-action:0.6.4
         with:
           entrypoint: rotate-release-notes
         env:
           GIT_USER_NAME: "Sean T. Allen"
           GIT_USER_EMAIL: "sean@seantallen.com"
       - name: Delete announcement trigger tag
-        uses: docker://ghcr.io/ponylang/release-bot-action:0.6.3
+        uses: docker://ghcr.io/ponylang/release-bot-action:0.6.4
         with:
           entrypoint: delete-announcement-tag
         env:
