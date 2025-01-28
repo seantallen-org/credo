@@ -1,6 +1,6 @@
 FROM ghcr.io/ponylang/ponyc:release-alpine AS build
 
-LABEL org.opencontainers.image.source = "https://github.com/seantallen-org/credo"
+LABEL org.opencontainers.image.source="https://github.com/seantallen-org/credo"
 
 WORKDIR /src/credo
 
