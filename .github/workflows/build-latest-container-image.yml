@@ -1,4 +1,4 @@
-name: Build latest container image
+name: Build Latest Container Image
 
 on:
   push:

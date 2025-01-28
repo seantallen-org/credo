@@ -1,4 +1,4 @@
-name: Verify container image builds
+name: Verify Container Image Builds
 
 on: pull_request_target
 
