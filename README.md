@@ -26,15 +26,21 @@ Credo only works within a Linux environment. You need a Linux installation, be i
 
 ## Requirements
 
+### At runtime
+
 You need to have Docker installed and running. The `docker` command should be available on your $PATH.
+
+### At build time
+
+To build Credo, you'll need a working [Pony](https://www.ponylang.io/) installation. You also need:
+
+- GNU make
+- sed
 
 ## Build
 
-To build Credo, you'll need a working [Pony](https://www.ponylang.io/) installation. Once you have that, you can run:
-
 ```console
-corral fetch
-corral run -- ponyc credo -o build
+make credo
 ```
 
 ## Configuration

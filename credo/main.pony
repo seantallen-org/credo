@@ -42,6 +42,9 @@ actor Main
             end
           end
           env.err.print("Error: No environment " + env_name + " found")
+        | "credo/version" =>
+          let version = recover val "credo " + Version() end
+          env.out.print(version)
         end
       | NoConfigFile =>
         env.err.print("Error: No config file found")

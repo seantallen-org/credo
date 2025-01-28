@@ -42,5 +42,8 @@ primitive CLI
           [
             ArgSpec.string("name", "Name of the environment to open a shell in")
           ])?
+        CommandSpec.leaf(
+          "version",
+          "Display the credo version and exit")?
       ])?
       .> add_help()?
