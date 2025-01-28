@@ -26,7 +26,7 @@ Credo only works within a Linux environment. You need a Linux installation, be i
 
 ## Build
 
-To build Credo, you'll need a working [Pony](https://www.ponylang.io/)installation. Once you have that, you can run:
+To build Credo, you'll need a working [Pony](https://www.ponylang.io/) installation. Once you have that, you can run:
 
 ```console
 corral fetch
