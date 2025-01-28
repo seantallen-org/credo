@@ -16,6 +16,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4.1.1
+        with:
+          # super-linter needs the full git history to get the
+          # list of files that changed across commits
+          fetch-depth: 0
       - name: Lint Dockerfile
         uses: docker://ghcr.io/super-linter/super-linter:v7.2.1
         env:
