@@ -3,7 +3,7 @@ name: Update Changelog
 on:
   push:
     branches:
-      - '**'
+      - main
     tags-ignore:
       - '**'
     paths-ignore:
