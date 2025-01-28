@@ -1,0 +1,44 @@
+name: Build latest container image
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: build-latest-container-image
+  cancel-in-progress: true
+
+permissions:
+  packages: write
+
+jobs:
+  build:
+    name: Build and push latest container image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.1.1
+      - name: Login to GitHub Container Registry
+        # v2.2.0
+        uses: docker/login-action@5139682d94efc37792e6b54386b5b470a68a4737
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push
+        run: bash .ci-scripts/build-latest-container-image.bash
+
+  prune:
+    needs:
+      - build
+
+    name: Prune untagged images
+    runs-on: ubuntu-latest
+    steps:
+      - name: Prune
+        uses: actions/delete-package-versions@v5.0.0
+        with:
+          package-name: 'credo'
+          package-type: 'container'
+          min-versions-to-keep: 1
+          delete-only-untagged-versions: 'true'
