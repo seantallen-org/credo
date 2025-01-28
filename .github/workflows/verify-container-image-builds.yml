@@ -1,6 +1,6 @@
 name: Verify Container Image Builds
 
-on: pull_request_target
+on: pull_request
 
 concurrency:
   group: container-image-builds-${{ github.ref }}

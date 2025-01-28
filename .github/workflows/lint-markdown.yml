@@ -1,6 +1,6 @@
 name: Lint Markdown
 
-on: pull_request_target
+on: pull_request
 
 concurrency:
   group: lint-markdown-${{ github.ref }}

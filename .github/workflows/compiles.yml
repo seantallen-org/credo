@@ -1,7 +1,7 @@
 name: Compiles
 
 on:
-  pull_request_target:
+  pull_request:
   repository_dispatch:
     types: [shared-docker-linux-builders-updated]
 

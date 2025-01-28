@@ -1,6 +1,6 @@
 name: Lint Dockerfile
 
-on: pull_request_target
+on: pull_request
 
 concurrency:
   group: lint-dockerfile-${{ github.ref }}
