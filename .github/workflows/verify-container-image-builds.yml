@@ -1,0 +1,19 @@
+name: Verify container image builds
+
+on: pull_request_target
+
+concurrency:
+  group: container-image-builds-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  validate-container-image-builds:
+    name: Validate container image builds
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.1.1
+      - name: Docker build
+        run: "docker build --pull ."
