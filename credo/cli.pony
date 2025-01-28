@@ -1,10 +1,12 @@
 use "cli"
 
+type CommandParseResult is (Command | (U8, String))
+
 primitive CLI
   fun parse(
-    args: Array[String] box,
-    envs: (Array[String] box | None))
-    : (Command | (U8, String))
+    args: Array[String] val,
+    envs: Array[String] val)
+    : CommandParseResult
   =>
     try
       match CommandParser(spec()?).parse(args, envs)
