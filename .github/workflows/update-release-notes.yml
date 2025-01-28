@@ -1,0 +1,29 @@
+name: Update Release Notes
+
+on:
+  push:
+    branches:
+      - '**'
+    tags-ignore:
+      - '**'
+    paths-ignore:
+      - .release-notes/next-release.md
+      - .release-notes/\d+.\d+.\d+.md
+
+permissions:
+  packages: read
+  pull-requests: read
+  contents: write
+
+jobs:
+  release-notes:
+    runs-on: ubuntu-latest
+    name: Update release notes
+    steps:
+      - name: Update
+        uses: docker://ghcr.io/ponylang/release-notes-bot-action:0.3.9
+        with:
+          git_user_name: "Sean T. Allen"
+          git_user_email: "sean@seantallen.com"
+        env:
+          API_CREDENTIALS: ${{ secrets.GITHUB_TOKEN }}
