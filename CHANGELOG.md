@@ -9,6 +9,7 @@ All notable changes to Credo will be documented in this file.
 
 ### Added
 
+- Initial release
 
 ### Changed
 
