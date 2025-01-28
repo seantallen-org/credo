@@ -32,7 +32,7 @@ actor Main
               return
             end
           end
-          env.err.print("No environment " + env_name + " found")
+          env.err.print("Error: No environment " + env_name + " found")
         | "credo/shell" =>
           let env_name = cmd.arg("name").string()
           for d in devenvs.values() do
