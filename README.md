@@ -24,6 +24,10 @@ To see containerized development environments designed to work with Credo, check
 
 Credo only works within a Linux environment. You need a Linux installation, be it native or via WSL 2.
 
+## Requirements
+
+You need to have Docker installed and running. The `docker` command should be available on your $PATH.
+
 ## Build
 
 To build Credo, you'll need a working [Pony](https://www.ponylang.io/) installation. Once you have that, you can run:
