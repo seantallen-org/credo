@@ -1,0 +1,20 @@
+name: Lint Markdown
+
+on: pull_request_target
+
+concurrency:
+  group: lint-markdown-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
+      - name: Lint Markdown files
+        uses: docker://ghcr.io/igorshubovych/markdownlint-cli:v0.44.0
