@@ -17,8 +17,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4.1.1
       - name: Lint Markdown files
-        uses: docker://github/super-linter:v7.2.1
+        uses: docker://ghcr.io/super-linter/super-linter:v7.2.1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VALIDATE_ALL_CODEBASE: true
-          VALIDATE_MD: true
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            VALIDATE_ALL_CODEBASE: true
+            VALIDATE_MD: true
