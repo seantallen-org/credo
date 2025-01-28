@@ -1,6 +1,9 @@
 name: Compiles
 
-on: pull_request_target
+on:
+  pull_request_target:
+  repository_dispatch:
+    types: [shared-docker-linux-builders-updated]
 
 concurrency:
   group: compiles-${{ github.ref }}
@@ -10,11 +13,18 @@ permissions:
   contents: read
 
 jobs:
-  compiles:
-    name: Compiles
+  linux-x86_64:
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        tag:
+          - latest
+          - release
+
+    name: Compiles with ${{ matrix.tag }} Pony compiler
     container:
-      image: ghcr.io/ponylang/shared-docker-ci-x86-64-unknown-linux-builder:latest
+      image: ghcr.io/ponylang/shared-docker-ci-x86-64-unknown-linux-builder:${{ matrix.tag }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4.1.1
