@@ -10,6 +10,7 @@ All notable changes to Credo will be documented in this file.
 ### Added
 
 - Allowing naming of running containers ([PR #12](https://github.com/seantallen-org/credo/pull/12))
+- Allow alternate configuration file locations ([PR #13](https://github.com/seantallen-org/credo/pull/13))
 
 ### Changed
 
