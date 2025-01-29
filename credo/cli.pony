@@ -25,7 +25,7 @@ primitive CLI
   =>
     CommandSpec.parent(
       "credo",
-      "",
+      "A containerized development environment runner",
       [],
       [
         CommandSpec.leaf(
