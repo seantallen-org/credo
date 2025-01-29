@@ -3,7 +3,10 @@ use @execvpe[I32](path: Pointer[U8] tag,
   envp: Pointer[Pointer[U8] tag] tag)
 
 primitive StartContainer
-  fun apply(devenv: Environment) =>
+  fun apply(devenv: Environment, running_name: String) =>
+    """
+    Starts a development environment container using the name `running_name`.
+    """
     let args: Array[String] val = recover val
       let mounts: Array[String] = []
       for m in devenv.mounts.values() do
@@ -20,7 +23,7 @@ primitive StartContainer
         "--user"
         devenv.user
         "--name"
-        devenv.name
+        running_name
         "-w"
         devenv.workdir
         "--mount"
@@ -44,13 +47,13 @@ primitive StartContainer
     @execvpe("docker".cstring(), argsp.cpointer(), varsp.cpointer())
 
 primitive OpenShell
-  fun apply(devenv: Environment) =>
+  fun apply(devenv: Environment, running_name: String) =>
     let args: Array[String] val =
       [
         "docker"
         "exec"
         "-it"
-        devenv.name
+        running_name
         devenv.shell
       ]
 

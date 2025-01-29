@@ -25,19 +25,19 @@ actor Main
       | let devenvs: Array[Environment] val =>
         match cmd.fullname()
         | "credo/start" =>
-          let env_name = cmd.arg("name").string()
+          (let env_name, let running_name) = _extract_names(cmd)
           for d in devenvs.values() do
             if d.name == env_name then
-              StartContainer(d)
+              StartContainer(d, running_name)
               return
             end
           end
           env.err.print("Error: No environment " + env_name + " found")
         | "credo/shell" =>
-          let env_name = cmd.arg("name").string()
+          (let env_name, let running_name) = _extract_names(cmd)
           for d in devenvs.values() do
             if d.name == env_name then
-              OpenShell(d)
+              OpenShell(d, running_name)
               return
             end
           end
@@ -54,4 +54,10 @@ actor Main
     else
       env.err.print("Error: Unable to get config directory location")
     end
+
+  fun _extract_names(cmd: Command): (String, String) =>
+    let env_name = cmd.arg("name").string()
+    let as_string = cmd.option("as").string()
+    let running_name = if as_string != "" then as_string else env_name end
+    (env_name, running_name)
 
