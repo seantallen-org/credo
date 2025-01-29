@@ -31,14 +31,18 @@ primitive CLI
         CommandSpec.leaf(
           "start",
           "Starts a development environment",
-          Array[OptionSpec](),
+          [
+            OptionSpec.string("as", "Name to assign to the running environment. Default is the name of environment.", None, "")
+          ],
           [
             ArgSpec.string("name", "Name of the environment to start")
           ])?
         CommandSpec.leaf(
           "shell",
           "Opens a new shell in a development environment",
-          Array[OptionSpec](),
+          [
+            OptionSpec.string("as", "Name of the running environment. Default is the name of environment.", None, "")
+          ],
           [
             ArgSpec.string("name", "Name of the environment to open a shell in")
           ])?
