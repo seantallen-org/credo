@@ -7,12 +7,12 @@ primitive ConfigParseError
 type ConfigLoadResult is (Array[Environment] val | NoConfigFile | ConfigParseError)
 
 primitive Config
-  fun load(auth: FileAuth, config_dir: String): ConfigLoadResult =>
+  fun load(auth: FileAuth, config: String): ConfigLoadResult =>
     let caps = recover val FileCaps.>set(FileRead).>set(FileStat) end
 
     try
       with file = OpenFile(
-        FilePath(auth, config_dir + "/config.json", caps)) as File
+        FilePath(auth, config, caps)) as File
       do
         try
           let json = _get_json_config(file)?
