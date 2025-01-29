@@ -26,7 +26,9 @@ primitive CLI
     CommandSpec.parent(
       "credo",
       "A containerized development environment runner",
-      [],
+      [
+        OptionSpec.string("config", "Path to the configuration file.", None, "")
+      ],
       [
         CommandSpec.leaf(
           "start",

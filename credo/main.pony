@@ -18,8 +18,8 @@ actor Main
         return
       end
 
-    try
-      let config_dir = AppDirs(env.vars, "credo").user_config_dir()?
+    match _extract_config_path(env.vars, cmd)
+    | let config_dir: String =>
       let config = Config.load(FileAuth(env.root), config_dir)
       match config
       | let devenvs: Array[Environment] val =>
@@ -51,8 +51,24 @@ actor Main
       | ConfigParseError =>
         env.err.print("Error: Unable to parse config file")
       end
-    else
+    | None =>
       env.err.print("Error: Unable to get config directory location")
+    end
+
+  fun _extract_config_path(
+    vars: Array[String] val,
+    cmd: Command): (String | None)
+  =>
+    try
+      let config_path = cmd.option("config").string()
+      if config_path != "" then
+        config_path
+      else
+        let dir = AppDirs(vars, "credo").user_config_dir()?
+        dir + "/" + "config.json"
+      end
+    else
+      None
     end
 
   fun _extract_names(cmd: Command): (String, String) =>
