@@ -1,6 +1,6 @@
 # Credo
 
-A containerized development environment runner
+![Credo Logo](assets/logo.png)
 
 ## Why Credo?
 
