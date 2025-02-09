@@ -1,6 +1,7 @@
 use "cli"
 use "files"
 use "appdirs"
+use rego = "rego"
 
 actor Main
   new create(env: Env) =>
