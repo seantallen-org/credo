@@ -6,7 +6,7 @@ on:
     types: [shared-docker-linux-builders-updated]
 
 concurrency:
-  group: compiles-${{ github.ref }}
+  group: compiles-${{ github.head_ref }}
   cancel-in-progress: true
 
 permissions:

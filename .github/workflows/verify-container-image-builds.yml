@@ -3,7 +3,7 @@ name: Verify Container Image Builds
 on: pull_request
 
 concurrency:
-  group: container-image-builds-${{ github.ref }}
+  group: container-image-builds-${{ github.head_ref }}
   cancel-in-progress: true
 
 permissions:

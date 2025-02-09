@@ -3,7 +3,7 @@ name: Lint Markdown
 on: pull_request
 
 concurrency:
-  group: lint-markdown-${{ github.ref }}
+  group: lint-markdown-${{ github.head_ref }}
   cancel-in-progress: true
 
 permissions:

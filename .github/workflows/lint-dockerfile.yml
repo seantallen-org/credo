@@ -3,7 +3,7 @@ name: Lint Dockerfile
 on: pull_request
 
 concurrency:
-  group: lint-dockerfile-${{ github.ref }}
+  group: lint-dockerfile-${{ github.head_ref }}
   cancel-in-progress: true
 
 permissions:
