@@ -12,7 +12,7 @@ class val InterpreterError
     message = message'
 
 primitive _InterpreterResultParser
-  fun apply(i: RegoEnum, interpreter: RegoInterpreter): InterpreterResult =>
+  fun apply(i: RegoEnum, interpreter: _RegoInterpreter): InterpreterResult =>
     match i
     | 0 => Ok
     | 1 => InterpreterError(_RegoFFI.get_error(interpreter))
