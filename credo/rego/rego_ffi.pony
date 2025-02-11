@@ -94,13 +94,13 @@ primitive RegoFFI
     Returns a string of the form
     "VERSION (BUILD_NAME, BUILD_DATE) BUILD_TOOLCHAIN on PLATFORM"
     """
-    recover val String.copy_string(@regoBuildInfo()) end
+    recover val String.copy_cstring(@regoBuildInfo()) end
 
   fun version(): String =>
     """
     Returns the version of the Rego library.
     """
-    recover val String.copy_string(@regoVersion()) end
+    recover val String.copy_cstring(@regoVersion()) end
 
   fun set_log_level(level: LogLevel): OkOrInvalidLogLevel =>
     """
@@ -313,7 +313,7 @@ primitive RegoFFI
     If an error code is returned from an interface function, more error
     information can be obtained by calling this function.
     """
-    recover val String.copy_string(@regoGetError(rego)) end
+    recover val String.copy_cstring(@regoGetError(rego)) end
 
   //
   // Output functions
@@ -408,7 +408,7 @@ primitive RegoFFI
     """
     Returns the output represented as a human-readable string.
     """
-    recover val String.copy_string(@regoOutputString(output)) end
+    recover val String.copy_cstring(@regoOutputString(output)) end
 
   fun free_output(output: RegoOutputPtr tag) =>
     """
@@ -434,7 +434,7 @@ primitive RegoFFI
     This function supports arbitrary nodes (i.e. it will always produce a
     value) including internal nodes which appear in error messages.
     """
-    recover val String.copy_string(@regoNodeTypeName(node)) end
+    recover val String.copy_cstring(@regoNodeTypeName(node)) end
 
   fun node_value_size(node: RegoNodePtr tag): RegoSize =>
     """
