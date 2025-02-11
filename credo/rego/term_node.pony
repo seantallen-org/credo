@@ -98,12 +98,29 @@ primitive UndefinedNode is TermNodeType
   """
 
 primitive TermsNode is TermNodeType
+  """
+  Zero or more raw terms as a result from a query.
+  If your query was "1 + 5", this will be the raw value "6".
+  """
 
 primitive BindingsNode is TermNodeType
+  """
+  Zero or more bound variables from a query.
+  If your query was "x=6", that shows up here.
+  """
 
 primitive ResultsNode is TermNodeType
+  """
+  Contains one or more `ResultNode` nodes.
+  """
 
 primitive ResultNode is TermNodeType
+  """
+  Has two children:
+
+  - a `TermsNode`
+  - a `BindingsNode`
+  """
 
 primitive ErrorNode is TermNodeType
   """
