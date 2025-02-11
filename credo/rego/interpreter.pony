@@ -1,3 +1,5 @@
+use "files"
+
 class val Interpreter
   let _interpreter: RegoInterpreter
 
@@ -7,15 +9,14 @@ class val Interpreter
   fun _final() =>
     _RegoFFI.free(_interpreter)
 
-  // TODO change to something higher level than a string
-  fun add_module_file(path: String): OkOrError =>
+  fun add_module_file(path: FilePath): OkOrError =>
     """
     Adds a module (e.g. virtual document) from the file at the specified path.
 
     If an error code is returned, more error information can be obtained by
     calling `get_error`.
     """
-    _RegoFFI.add_module_file(_interpreter, path)
+    _RegoFFI.add_module_file(_interpreter, path.path)
 
   fun add_module(name: String, contents: String): OkOrError =>
     """
@@ -26,8 +27,7 @@ class val Interpreter
     """
     _RegoFFI.add_module(_interpreter, name, contents)
 
-  // TODO change to something higher level than a string
-  fun add_data_json_file(path: String): OkOrError =>
+  fun add_data_json_file(path: FilePath): OkOrError =>
     """
     Adds a base document from the file at the specified path.
 
@@ -37,7 +37,7 @@ class val Interpreter
     If an error code is returned, more error information can be
     obtained by calling `get_error`.
     """
-    _RegoFFI.add_data_json_file(_interpreter, path)
+    _RegoFFI.add_data_json_file(_interpreter, path.path)
 
   fun add_data_json(contents: String): OkOrError =>
     """
@@ -51,7 +51,7 @@ class val Interpreter
     """
     _RegoFFI.add_data_json(_interpreter, contents)
 
-  fun set_input_json_file(path: String): OkOrError =>
+  fun set_input_json_file(path: FilePath): OkOrError =>
     """
     Sets the current input document from the file at the specified path.
 
@@ -61,7 +61,7 @@ class val Interpreter
     If an error code is returned, more error information can be
     obtained by calling `get_error`.
     """
-    _RegoFFI.set_input_json_file(_interpreter, path)
+    _RegoFFI.set_input_json_file(_interpreter, path.path)
 
   fun set_input_term(contents: String): OkOrError =>
     """
@@ -93,8 +93,7 @@ class val Interpreter
     """
     _RegoFFI.get_debug_enabled(_interpreter)
 
-  // TODO change to something higher level than a string
-  fun set_debug_path(path: String): OkOrError =>
+  fun set_debug_path(path: FilePath): OkOrError =>
     """
     Sets the path to the debug directory.
 
@@ -105,7 +104,7 @@ class val Interpreter
     If an error code is returned, more error information can be
     obtained by calling `get_error`.
     """
-    _RegoFFI.set_debug_path(_interpreter, path)
+    _RegoFFI.set_debug_path(_interpreter, path.path)
 
   fun set_well_formed_checks_enabled(enabled: Bool) =>
     """
