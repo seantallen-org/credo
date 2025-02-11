@@ -2,49 +2,101 @@ trait val TermNodeType
   fun apply(): RegoEnum
 
 primitive BindingNode is TermNodeType
-  fun apply(): RegoEnum => 1000
+  """
+  A binding. Will have two children, a `VarNode` and a `TermNode`.
+  """
 
 primitive VarNode is TermNodeType
-  fun apply(): RegoEnum => 1001
+  """
+  A variable name.
+  """
 
 primitive TermNode is TermNodeType
-  fun apply(): RegoEnum => 1002
+  """
+  A term. Will have one child of:
+
+  - `ScalarNode`
+  - `ArrayNode`
+  - `SetNode`
+  - `ObjectNode`
+  """
 
 primitive ScalarNode is TermNodeType
-  fun apply(): RegoEnum => 1003
+  """
+  A scalar value. Will have one child of:
+
+  - `IntNode`
+  - `FloatNode`
+  - `StringNode`
+  - `TrueNode`
+  - `FalseNode`
+  - `NullNode`
+  - `UndefinedNode`
+  """
 
 primitive ArrayNode is TermNodeType
-  fun apply(): RegoEnum => 1004
+  """
+  An array. Will have one or more children of:
+
+  - `TermNode`
+  """
 
 primitive SetNode is TermNodeType
-  fun apply(): RegoEnum => 1005
+  """
+  A set. Will have one or more children of:
+
+  - `TermNode`
+  """
 
 primitive ObjectNode is TermNodeType
-  fun apply(): RegoEnum => 1006
+  """
+  An object. Will have one or more children of:
+
+  - `ObjectItemNode`
+  """
 
 primitive ObjectItemNode is TermNodeType
-  fun apply(): RegoEnum => 1007
+  """
+  An object item. Will have two children:
+
+  - a `TermNode` (the key)
+  - a `TermNode` (the value)
+  """
 
 primitive IntNode is TermNodeType
-  fun apply(): RegoEnum => 1008
+  """
+  An integer value.
+  """
 
 primitive FloatNode is TermNodeType
-  fun apply(): RegoEnum => 1009
+  """
+  A floating point value.
+  """
 
 primitive StringNode is TermNodeType
-  fun apply(): RegoEnum => 1010
+  """
+  A string value.
+  """
 
 primitive TrueNode is TermNodeType
-  fun apply(): RegoEnum => 1011
+  """
+  The boolean value `true`.
+  """
 
 primitive FalseNode is TermNodeType
-  fun apply(): RegoEnum => 1012
+  """
+  The boolean value `false`.
+  """
 
 primitive NullNode is TermNodeType
-  fun apply(): RegoEnum => 1013
+  """
+  A null value.
+  """
 
 primitive UndefinedNode is TermNodeType
-  fun apply(): RegoEnum => 1014
+  """
+  An undefined value.
+  """
 
 primitive TermsNode is TermNodeType
   fun apply(): RegoEnum => 1015
@@ -59,19 +111,40 @@ primitive ResultNode is TermNodeType
   fun apply(): RegoEnum => 1018
 
 primitive ErrorNode is TermNodeType
-  fun apply(): RegoEnum => 1800
+  """
+  An error. Will have three children:
+
+  - `ErrorMessageNode`
+  - `ErrorAstNode`
+  - `ErrorCodeNode`
+  """
 
 primitive ErrorMessageNode is TermNodeType
-  fun apply(): RegoEnum => 1801
+  """
+  An error message.
+  """
 
 primitive ErrorAstNode is TermNodeType
-  fun apply(): RegoEnum => 1802
+  """
+  An error AST.
+  """
 
 primitive ErrorCodeNode is TermNodeType
-  fun apply(): RegoEnum => 1803
+  """
+  An error code.
+  """
 
 primitive ErrorSeqNode is TermNodeType
-  fun apply(): RegoEnum => 1804
+  """
+  A sequence of errors. Will have one or more children of:
+
+  - `ErrorNode`
+  """
+
+primitive InternalNode is TermNodeType
+  """
+  An internal node. Use `node_type_bame` to get the full value.
+  """
 
 primitive UnknownNode is TermNodeType
   fun apply(): RegoEnum => RegoEnum.max_value()
