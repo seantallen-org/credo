@@ -99,7 +99,7 @@ primitive _RegoFFI
     This setting controls the amount of logging that will be output to stdout.
     The default level is `NoneLevel`.
     """
-    ResultOkOrInvalidLogLevelParser(@regoSetLogLevel(level()))
+    _ResultOkOrInvalidLogLevelParser(@regoSetLogLevel(level()))
 
   fun interpreter(): RegoInterpreter =>
     """
@@ -371,7 +371,7 @@ primitive _RegoFFI
     The buffer must be large enough to hold the value. The size of the buffer
     can be determined by calling `output_json_size`.
     """
-    ResultOkOrBufferTooSmallParser(@regoOutputJSON(output, buffer, size))
+    _ResultOkOrBufferTooSmallParser(@regoOutputJSON(output, buffer, size))
 
   fun output_string(output: RegoOutput): String =>
     """
@@ -425,7 +425,7 @@ primitive _RegoFFI
     The buffer must be large enough to hold the value. The size of the buffer
     can be determined by calling `node_value_size`.
     """
-    ResultOkOrBufferTooSmallParser(@regoNodeValue(node, buffer, size))
+    _ResultOkOrBufferTooSmallParser(@regoNodeValue(node, buffer, size))
 
   fun node_size(node: RegoNode): RegoSize =>
     """
@@ -461,4 +461,4 @@ primitive _RegoFFI
     The buffer must be large enough to hold the value. The size of the buffer
     can be determined by calling `node_json_size`.
     """
-    ResultOkOrBufferTooSmallParser(@regoNodeJSON(node, buffer, size))
+    _ResultOkOrBufferTooSmallParser(@regoNodeJSON(node, buffer, size))
