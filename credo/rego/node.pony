@@ -34,7 +34,7 @@ class val Node
     """
     _RegoFFI.node_size(_node)
 
-  fun get(index: RegoSize): Node ?=>
+  fun child_at(index: RegoSize): Node ?=>
     """
     Returns the child node at the specified index.
     """
