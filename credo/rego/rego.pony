@@ -15,7 +15,7 @@ primitive Rego
     """
     _RegoFFI.version()
 
-  fun set_log_level(level: LogLevel): OkOrInvalidLogLevel =>
+  fun set_log_level(level: LogLevel) =>
     """
     Sets the level of logging.
 

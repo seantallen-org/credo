@@ -92,7 +92,7 @@ primitive _RegoFFI
     """
     recover val String.copy_cstring(@regoVersion()) end
 
-  fun set_log_level(level: LogLevel): OkOrInvalidLogLevel =>
+  fun set_log_level(level: LogLevel) =>
     """
     Sets the level of logging.
 

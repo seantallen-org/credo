@@ -17,6 +17,7 @@ primitive BufferTooSmall
   This should never happen based on our usage of the FFI.
   If it does, it's a bug and we panic.
   """
+
 primitive ResultOkOrBufferTooSmallParser
   // Based on our usage, we should never actually get
   // a BufferTooSmall result from the FFI.
@@ -31,14 +32,19 @@ primitive ResultOkOrBufferTooSmallParser
       BufferTooSmall
     end
 
-type OkOrInvalidLogLevel is (Ok | InvalidLogLevel)
 primitive InvalidLogLevel
+  """
+  This should never happen based on our usage of the FFI.
+  If it does, it's a bug and we panic.
+  """
 
 primitive ResultOkOrInvalidLogLevelParser
-  fun apply(i: RegoEnum): OkOrInvalidLogLevel =>
+  fun apply(i: RegoEnum): (Ok | InvalidLogLevel) =>
     match i
     | 0 => Ok
-    | 3 => InvalidLogLevel
+    | 3 =>
+      BadLogLevel()
+      InvalidLogLevel
     else
       Unreachable()
       InvalidLogLevel
