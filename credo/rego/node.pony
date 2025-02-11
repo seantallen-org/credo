@@ -19,7 +19,7 @@ class val Node
     """
     _RegoFFI.node_type_name(_node)
 
-  fun value(): Array[U8] iso =>
+  fun apply(): Array[U8] iso =>
     """
     Get node value
     """
