@@ -1,5 +1,4 @@
 trait val TermNodeType
-  fun apply(): RegoEnum
 
 primitive BindingNode is TermNodeType
   """
@@ -99,16 +98,12 @@ primitive UndefinedNode is TermNodeType
   """
 
 primitive TermsNode is TermNodeType
-  fun apply(): RegoEnum => 1015
 
 primitive BindingsNode is TermNodeType
-  fun apply(): RegoEnum => 1016
 
 primitive ResultsNode is TermNodeType
-  fun apply(): RegoEnum => 1017
 
 primitive ResultNode is TermNodeType
-  fun apply(): RegoEnum => 1018
 
 primitive ErrorNode is TermNodeType
   """
