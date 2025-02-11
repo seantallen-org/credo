@@ -19,25 +19,14 @@ class val Node
     """
     _RegoFFI.node_type_name(_node)
 
-  fun value_size(): RegoSize =>
+  fun value(): Array[U8] iso =>
     """
-    Returns the number of bytes needed to store a 0-terminated string
-    representing the text value of the node.
-
-    The value returned by this function can be used to allocate a buffer to
-    pass to `value`.
+    Get node value
     """
-    _RegoFFI.node_value_size(_node)
-
-  // TODO
-  fun value(buffer: Array[U8] iso): OkOrBufferTooSmall =>
-    """
-    Populate a buffer with the node value.
-
-    The buffer must be large enough to hold the value. The size of the buffer
-    can be determined by calling `value_size`.
-    """
+    let required = _RegoFFI.node_value_size(_node).usize()
+    let buffer = recover iso Array[U8](required) end
     _RegoFFI.node_value(_node, buffer.cpointer(), buffer.size().u32())
+    consume buffer
 
   fun size(): RegoSize =>
     """
@@ -52,23 +41,11 @@ class val Node
     let ptr = _RegoFFI.node_get(_node, index)
     Node._create(ptr()?)
 
-  fun json_size(): RegoSize =>
+  fun json(): Array[U8] iso =>
     """
-    Returns the number of bytes needed to store a 0-terminated string
-    representing the JSON representation of the node.
-
-    The value returned by this function can be used to allocate a buffer to
-    pass to `json`.
+    Get the JSON representation of the node.
     """
-    _RegoFFI.node_json_size(_node)
-
-  // TODO
-  fun json(buffer: Array[U8] iso): OkOrBufferTooSmall =>
-    """
-    Populate a buffer with the JSON representation of the node.
-
-    The buffer must be large enough to hold the value. The size of the buffer
-    can be determined by calling `json_size`.
-    """
+    let required = _RegoFFI.node_json_size(_node).usize()
+    let buffer = recover iso Array[U8](required) end
     _RegoFFI.node_json(_node, buffer.cpointer(), buffer.size().u32())
-
+    consume buffer

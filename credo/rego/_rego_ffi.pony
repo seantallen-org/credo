@@ -363,7 +363,7 @@ primitive _RegoFFI
 
   fun output_json(output: RegoOutput,
     buffer: RegoApiBuffer tag,
-    size: RegoSize): OkOrBufferTooSmall
+    size: RegoSize)
   =>
     """
     Populate a buffer with the output represented as a human-readable string.
@@ -417,7 +417,7 @@ primitive _RegoFFI
     @regoNodeValueSize(node)
 
   fun node_value(node: RegoNode, buffer: RegoApiBuffer tag,
-    size: RegoSize): OkOrBufferTooSmall
+    size: RegoSize)
   =>
     """
     Populate a buffer with the node value.
@@ -453,7 +453,7 @@ primitive _RegoFFI
 
   fun node_json(node: RegoNode,
     buffer: RegoApiBuffer tag,
-    size: RegoSize): OkOrBufferTooSmall
+    size: RegoSize)
   =>
     """
     Populate a buffer with the JSON representation of the node.
