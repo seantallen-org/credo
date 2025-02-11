@@ -12,14 +12,20 @@ primitive ResultOkOrErrorParser
       Error
     end
 
-type OkOrBufferTooSmall is (Ok | BufferTooSmall)
 primitive BufferTooSmall
-
+  """
+  This should never happen based on our usage of the FFI.
+  If it does, it's a bug and we panic.
+  """
 primitive ResultOkOrBufferTooSmallParser
-  fun apply(i: RegoEnum): OkOrBufferTooSmall =>
+  // Based on our usage, we should never actually get
+  // a BufferTooSmall result from the FFI.
+  fun apply(i: RegoEnum): (Ok | BufferTooSmall) =>
     match i
     | 0 => Ok
-    | 2 => BufferTooSmall
+    | 2 =>
+      BadBufferUsage()
+      BufferTooSmall
     else
       Unreachable()
       BufferTooSmall

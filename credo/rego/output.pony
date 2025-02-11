@@ -75,15 +75,17 @@ class val Output
     """
     _RegoFFI.output_json_size(_output)
 
-  // TODO
-  fun json(buffer: Array[U8] iso): OkOrBufferTooSmall =>
+  fun json(): Array[U8] iso =>
     """
     Populate a buffer with the output represented as a human-readable string.
 
     The buffer must be large enough to hold the value. The size needed for
     the buffer can be determined by calling `json_size`.
     """
+    let required = _RegoFFI.output_json_size(_output).usize()
+    let buffer = recover iso Array[U8](required) end
     _RegoFFI.output_json(_output, buffer.cpointer(), buffer.size().u32())
+    consume buffer
 
   fun string(): String =>
     """
