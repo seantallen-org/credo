@@ -1,7 +1,7 @@
 use "files"
 
 class val Interpreter
-  let _interpreter: RegoInterpreter
+  let _interpreter: _RegoInterpreter
 
   new val create() =>
     _interpreter = _RegoFFI.interpreter()

@@ -1,74 +1,74 @@
 use "lib:rego-standalone"
 
 // Interpreter functions
-use @regoBuildInfo[RegoString]()
-use @regoVersion[RegoString]()
+use @regoBuildInfo[_RegoString]()
+use @regoVersion[_RegoString]()
 use @regoSetLogLevel[RegoEnum](level: RegoEnum)
-use @regoNewV1[RegoInterpreter]()
-use @regoFree[None](rego: RegoInterpreter)
-use @regoAddModuleFile[RegoEnum](rego: RegoInterpreter, path: RegoString tag)
-use @regoAddModule[RegoEnum](rego: RegoInterpreter,
-  name: RegoString tag,
-  contents: RegoString tag)
-use @regoAddDataJSONFile[RegoEnum](rego: RegoInterpreter, path: RegoString tag)
-use @regoAddDataJSON[RegoEnum](rego: RegoInterpreter, contents: RegoString tag)
-use @regoSetInputJSONFile[RegoEnum](rego: RegoInterpreter, path: RegoString tag)
-use @regoSetInputTerm[RegoEnum](rego: RegoInterpreter, contents: RegoString tag)
-use @regoSetDebugEnabled[None](rego: RegoInterpreter, enabled: RegoBool)
-use @regoGetDebugEnabled[RegoBool](rego: RegoInterpreter)
-use @regoSetDebugPath[RegoEnum](rego: RegoInterpreter, path: RegoString tag)
-use @regoSetWellFormedChecksEnabled[None](rego: RegoInterpreter,
-  enabled: RegoBool)
-use @regoGetWellFormedChecksEnabled[RegoBool](rego: RegoInterpreter)
-use @regoQuery[RegoOutput](rego: RegoInterpreter,
-  query_expr: RegoString tag)
-use @regoSetStrictBuiltInErrors[None](rego: RegoInterpreter, enabled: RegoBool)
-use @regoGetStrictBuiltInErrors[RegoBool](rego: RegoInterpreter)
-use @regoIsBuiltIn[RegoBool](rego: RegoInterpreter, name: RegoString tag)
-use @regoGetError[RegoString](rego: RegoInterpreter)
+use @regoNewV1[_RegoInterpreter]()
+use @regoFree[None](rego: _RegoInterpreter)
+use @regoAddModuleFile[RegoEnum](rego: _RegoInterpreter, path: _RegoString tag)
+use @regoAddModule[RegoEnum](rego: _RegoInterpreter,
+  name: _RegoString tag,
+  contents: _RegoString tag)
+use @regoAddDataJSONFile[RegoEnum](rego: _RegoInterpreter, path: _RegoString tag)
+use @regoAddDataJSON[RegoEnum](rego: _RegoInterpreter, contents: _RegoString tag)
+use @regoSetInputJSONFile[RegoEnum](rego: _RegoInterpreter, path: _RegoString tag)
+use @regoSetInputTerm[RegoEnum](rego: _RegoInterpreter, contents: _RegoString tag)
+use @regoSetDebugEnabled[None](rego: _RegoInterpreter, enabled: _RegoBool)
+use @regoGetDebugEnabled[_RegoBool](rego: _RegoInterpreter)
+use @regoSetDebugPath[RegoEnum](rego: _RegoInterpreter, path: _RegoString tag)
+use @regoSetWellFormedChecksEnabled[None](rego: _RegoInterpreter,
+  enabled: _RegoBool)
+use @regoGetWellFormedChecksEnabled[_RegoBool](rego: _RegoInterpreter)
+use @regoQuery[_RegoOutput](rego: _RegoInterpreter,
+  query_expr: _RegoString tag)
+use @regoSetStrictBuiltInErrors[None](rego: _RegoInterpreter, enabled: _RegoBool)
+use @regoGetStrictBuiltInErrors[_RegoBool](rego: _RegoInterpreter)
+use @regoIsBuiltIn[_RegoBool](rego: _RegoInterpreter, name: _RegoString tag)
+use @regoGetError[_RegoString](rego: _RegoInterpreter)
 // Output functions
-use @regoOutputOk[RegoBool](output: RegoOutput)
-use @regoOutputSize[RegoSize](output: RegoOutput)
-use @regoOutputExpressionsAtIndex[NullableRegoNodePtr val](
-  output: RegoOutput,
+use @regoOutputOk[_RegoBool](output: _RegoOutput)
+use @regoOutputSize[RegoSize](output: _RegoOutput)
+use @regoOutputExpressionsAtIndex[_NullableRegoNodePtr val](
+  output: _RegoOutput,
   index: RegoSize)
-use @regoOutputExpressions[NullableRegoNodePtr val](output: RegoOutput)
-use @regoOutputNode[RegoNode](output: RegoOutput)
-use @regoOutputBindingAtIndex[NullableRegoNodePtr val](output: RegoOutput,
+use @regoOutputExpressions[_NullableRegoNodePtr val](output: _RegoOutput)
+use @regoOutputNode[_RegoNode](output: _RegoOutput)
+use @regoOutputBindingAtIndex[_NullableRegoNodePtr val](output: _RegoOutput,
   index: RegoSize,
-  name: RegoString tag)
-use @regoOutputBinding[NullableRegoNodePtr val](output: RegoOutput,
-  name: RegoString tag)
-use @regoOutputJSONSize[RegoSize](output: RegoOutput)
-use @regoOutputJSON[RegoEnum](output: RegoOutput,
-  buffer: RegoApiBuffer tag,
+  name: _RegoString tag)
+use @regoOutputBinding[_NullableRegoNodePtr val](output: _RegoOutput,
+  name: _RegoString tag)
+use @regoOutputJSONSize[RegoSize](output: _RegoOutput)
+use @regoOutputJSON[RegoEnum](output: _RegoOutput,
+  buffer: _RegoApiBuffer tag,
   size: RegoSize)
-use @regoOutputString[RegoString](output: RegoOutput)
-use @regoFreeOutput[None](output: RegoOutput)
+use @regoOutputString[_RegoString](output: _RegoOutput)
+use @regoFreeOutput[None](output: _RegoOutput)
 // Node functions
-use @regoNodeType[RegoEnum](node: RegoNode)
-use @regoNodeTypeName[RegoString](node: RegoNode)
-use @regoNodeValueSize[RegoSize](node: RegoNode)
-use @regoNodeValue[RegoEnum](node: RegoNode, buffer: RegoApiBuffer tag,
+use @regoNodeType[RegoEnum](node: _RegoNode)
+use @regoNodeTypeName[_RegoString](node: _RegoNode)
+use @regoNodeValueSize[RegoSize](node: _RegoNode)
+use @regoNodeValue[RegoEnum](node: _RegoNode, buffer: _RegoApiBuffer tag,
   size: RegoSize)
-use @regoNodeSize[RegoSize](node: RegoNode)
-use @regoNodeGet[NullableRegoNodePtr val](node: RegoNode, index: RegoSize)
-use @regoNodeJSONSize[RegoSize](node: RegoNode)
-use @regoNodeJSON[RegoEnum](node: RegoNode, buffer: RegoApiBuffer tag,
+use @regoNodeSize[RegoSize](node: _RegoNode)
+use @regoNodeGet[_NullableRegoNodePtr val](node: _RegoNode, index: RegoSize)
+use @regoNodeJSONSize[RegoSize](node: _RegoNode)
+use @regoNodeJSON[RegoEnum](node: _RegoNode, buffer: _RegoApiBuffer tag,
   size: RegoSize)
 
 // Type aliases
 type RegoEnum is U32
-type RegoString is Pointer[U8]
-type RegoBool is U8
-type NullableRegoNodePtr is NullablePointer[RegoNode]
 type RegoSize is U32
-type RegoApiBuffer is Pointer[U8]
+type _NullableRegoNodePtr is NullablePointer[_RegoNode]
+type _RegoApiBuffer is Pointer[U8]
+type _RegoBool is U8
+type _RegoString is Pointer[U8]
 
 // Types for the various void* pointers that the rego-cpp C-API exposes
-struct tag RegoInterpreter
-struct tag RegoOutput
-struct tag RegoNode
+struct tag _RegoInterpreter
+struct tag _RegoOutput
+struct tag _RegoNode
 
 primitive _RegoFFI
   """
@@ -101,7 +101,7 @@ primitive _RegoFFI
     """
     _ResultOkOrInvalidLogLevelParser(@regoSetLogLevel(level()))
 
-  fun interpreter(): RegoInterpreter =>
+  fun interpreter(): _RegoInterpreter =>
     """
     Allocates and initializes a new Rego interpreter.
 
@@ -109,7 +109,7 @@ primitive _RegoFFI
     """
     @regoNewV1()
 
-  fun free(rego: RegoInterpreter) =>
+  fun free(rego: _RegoInterpreter) =>
     """
     Frees a Rego interpreter.
 
@@ -117,7 +117,7 @@ primitive _RegoFFI
     """
     @regoFree(rego)
 
-  fun add_module_file(rego: RegoInterpreter, path: String): InterpreterResult =>
+  fun add_module_file(rego: _RegoInterpreter, path: String): InterpreterResult =>
     """
     Adds a module (e.g. virtual document) from the file at the specified path.
 
@@ -126,7 +126,7 @@ primitive _RegoFFI
     """
     _InterpreterResultParser(@regoAddModuleFile(rego, path.cstring()), rego)
 
-  fun add_module(rego: RegoInterpreter,
+  fun add_module(rego: _RegoInterpreter,
     name: String,
     contents: String): InterpreterResult
   =>
@@ -139,7 +139,7 @@ primitive _RegoFFI
     _InterpreterResultParser(
       @regoAddModule(rego, name.cstring(), contents.cstring()), rego)
 
-  fun add_data_json_file(rego: RegoInterpreter,
+  fun add_data_json_file(rego: _RegoInterpreter,
     path: String): InterpreterResult
   =>
     """
@@ -153,7 +153,7 @@ primitive _RegoFFI
     """
     _InterpreterResultParser(@regoAddDataJSONFile(rego, path.cstring()), rego)
 
-  fun add_data_json(rego: RegoInterpreter,
+  fun add_data_json(rego: _RegoInterpreter,
     contents: String): InterpreterResult
   =>
     """
@@ -168,7 +168,7 @@ primitive _RegoFFI
     _InterpreterResultParser(
       @regoAddDataJSONFile(rego, contents.cstring()), rego)
 
-  fun set_input_json_file(rego: RegoInterpreter,
+  fun set_input_json_file(rego: _RegoInterpreter,
     path: String): InterpreterResult
   =>
     """
@@ -182,7 +182,7 @@ primitive _RegoFFI
     """
     _InterpreterResultParser(@regoSetInputJSONFile(rego, path.cstring()), rego)
 
-  fun set_input_term(rego: RegoInterpreter,
+  fun set_input_term(rego: _RegoInterpreter,
     contents: String): InterpreterResult
   =>
     """
@@ -197,7 +197,7 @@ primitive _RegoFFI
     _InterpreterResultParser(
       @regoSetInputJSONFile(rego, contents.cstring()), rego)
 
-  fun set_debug_enabled(rego: RegoInterpreter, enabled: Bool) =>
+  fun set_debug_enabled(rego: _RegoInterpreter, enabled: Bool) =>
     """
     Sets the debug mode of the interpreter.
 
@@ -207,17 +207,17 @@ primitive _RegoFFI
     compiler issues, but can also be of use in understanding why a policy is
     invalid or is behaving unexpectedly.
     """
-    let e: RegoBool = if enabled then 1 else 0 end
+    let e: _RegoBool = if enabled then 1 else 0 end
 
     @regoSetDebugEnabled(rego, e)
 
-  fun get_debug_enabled(rego: RegoInterpreter): Bool =>
+  fun get_debug_enabled(rego: _RegoInterpreter): Bool =>
     """
     Gets the debug mode of the interpreter.
     """
     @regoGetDebugEnabled(rego) == 1
 
-  fun set_debug_path(rego: RegoInterpreter, path: String): InterpreterResult =>
+  fun set_debug_path(rego: _RegoInterpreter, path: String): InterpreterResult =>
     """
     Sets the path to the debug directory.
 
@@ -230,7 +230,7 @@ primitive _RegoFFI
     """
     _InterpreterResultParser(@regoSetDebugPath(rego, path.cstring()), rego)
 
-  fun set_well_formed_checks_enabled(rego: RegoInterpreter, enabled: Bool) =>
+  fun set_well_formed_checks_enabled(rego: _RegoInterpreter, enabled: Bool) =>
     """
     Sets whether to perform well-formed checks after each compiler pass.
 
@@ -239,27 +239,27 @@ primitive _RegoFFI
     determines whether the interpreter will perform these intermediary
     checks.
     """
-    let e: RegoBool = if enabled then 1 else 0 end
+    let e: _RegoBool = if enabled then 1 else 0 end
 
     @regoSetWellFormedChecksEnabled(rego, e)
 
-  fun get_well_formed_checks_enabled(rego: RegoInterpreter): Bool =>
+  fun get_well_formed_checks_enabled(rego: _RegoInterpreter): Bool =>
     """
     Gets whether well-formed checks are enabled.
     """
     @regoGetWellFormedChecksEnabled(rego) == 1
 
-  fun query(rego: RegoInterpreter, query_expr: String): RegoOutput =>
+  fun query(rego: _RegoInterpreter, query_expr: String): _RegoOutput =>
     """
     Performs a query against the current base and virtual documents.
 
     The query expression should be a Rego query. The output of the query
-    will be returned as a RegoOutput. The caller is responsible for
+    will be returned as a _RegoOutput. The caller is responsible for
     freeing the output object with `free_output`.
     """
     @regoQuery(rego, query_expr.cstring())
 
-  fun set_strict_builtin_errors(rego: RegoInterpreter, enabled: Bool) =>
+  fun set_strict_builtin_errors(rego: _RegoInterpreter, enabled: Bool) =>
     """
     Sets whether the built-ins should throw errors.
 
@@ -267,24 +267,24 @@ primitive _RegoFFI
     errors when they encounter invalid input. When disabled, built-in
     functions will return undefined when they encounter invalid input.
     """
-    let e: RegoBool = if enabled then 1 else 0 end
+    let e: _RegoBool = if enabled then 1 else 0 end
 
     @regoSetStrictBuiltInErrors(rego, e)
 
-  fun get_strict_builtin_errors(rego: RegoInterpreter): Bool =>
+  fun get_strict_builtin_errors(rego: _RegoInterpreter): Bool =>
     """
     Gets whether strict built-in errors are enabled.
     """
     @regoGetStrictBuiltInErrors(rego) == 1
 
-  fun is_builtin(rego: RegoInterpreter, name: String): Bool =>
+  fun is_builtin(rego: _RegoInterpreter, name: String): Bool =>
     """
     Returns whether the specified name corresponds to an available built-in in
     the interpreter.
     """
     @regoIsBuiltIn(rego, name.cstring()) == 1
 
-  fun get_error(rego: RegoInterpreter): String =>
+  fun get_error(rego: _RegoInterpreter): String =>
     """
     Returns the most recently thrown error.
 
@@ -297,7 +297,7 @@ primitive _RegoFFI
   // Output functions
   //
 
-  fun output_ok(output: RegoOutput): Bool =>
+  fun output_ok(output: _RegoOutput): Bool =>
     """
     Returns whether the output is ok.
 
@@ -307,7 +307,7 @@ primitive _RegoFFI
     """
     @regoOutputOk(output) == 1
 
-  fun output_size(output: RegoOutput): RegoSize =>
+  fun output_size(output: _RegoOutput): RegoSize =>
     """
     Returns the number of results in the output.
 
@@ -316,8 +316,8 @@ primitive _RegoFFI
     """
     @regoOutputSize(output)
 
-  fun output_expressions_at_index(output: RegoOutput,
-    index: RegoSize): NullableRegoNodePtr val
+  fun output_expressions_at_index(output: _RegoOutput,
+    index: RegoSize): _NullableRegoNodePtr val
   =>
     """
     Returns a node containing a list of terms resulting from the query at
@@ -325,14 +325,14 @@ primitive _RegoFFI
     """
     @regoOutputExpressionsAtIndex(output, index)
 
-  fun output_expressions(output: RegoOutput): NullableRegoNodePtr val =>
+  fun output_expressions(output: _RegoOutput): _NullableRegoNodePtr val =>
     """
     Returns a node containing a list of terms resulting from the query
     at the default index.
     """
     @regoOutputExpressions(output)
 
-  fun output_node(output: RegoOutput): RegoNode =>
+  fun output_node(output: _RegoOutput): _RegoNode =>
     """
     Returns the node containing the output of the query.
 
@@ -341,8 +341,8 @@ primitive _RegoFFI
     """
     @regoOutputNode(output)
 
-  fun output_binding_at_index(output: RegoOutput,
-    index: RegoSize, name: String): NullableRegoNodePtr val
+  fun output_binding_at_index(output: _RegoOutput,
+    index: RegoSize, name: String): _NullableRegoNodePtr val
   =>
     """
     Returns the bound value for a given variable name.
@@ -351,8 +351,8 @@ primitive _RegoFFI
     """
     @regoOutputBindingAtIndex(output, index, name.cstring())
 
-  fun output_binding(output: RegoOutput,
-    name: String): NullableRegoNodePtr val
+  fun output_binding(output: _RegoOutput,
+    name: String): _NullableRegoNodePtr val
   =>
     """
     Returns the bound value for a given variable name at the first index.
@@ -361,7 +361,7 @@ primitive _RegoFFI
     """
     @regoOutputBinding(output, name.cstring())
 
-  fun output_json_size(output: RegoOutput): RegoSize =>
+  fun output_json_size(output: _RegoOutput): RegoSize =>
     """
     Returns the number of bytes needed to store a 0-terminated string
     representing the output as a human-readable string.
@@ -371,8 +371,8 @@ primitive _RegoFFI
     """
     @regoOutputJSONSize(output)
 
-  fun output_json(output: RegoOutput,
-    buffer: RegoApiBuffer tag,
+  fun output_json(output: _RegoOutput,
+    buffer: _RegoApiBuffer tag,
     size: RegoSize)
   =>
     """
@@ -383,15 +383,15 @@ primitive _RegoFFI
     """
     _ResultOkOrBufferTooSmallParser(@regoOutputJSON(output, buffer, size))
 
-  fun output_string(output: RegoOutput): String =>
+  fun output_string(output: _RegoOutput): String =>
     """
     Returns the output represented as a human-readable string.
     """
     recover val String.copy_cstring(@regoOutputString(output)) end
 
-  fun free_output(output: RegoOutput) =>
+  fun free_output(output: _RegoOutput) =>
     """
-    Frees a `RegoOutput`.
+    Frees a `_RegoOutput`.
 
     This pointer must have been allocated with `query`.
     """
@@ -401,13 +401,13 @@ primitive _RegoFFI
   // Node functions
   //
 
-  fun node_type(node: RegoNode): TermNodeType =>
+  fun node_type(node: _RegoNode): TermNodeType =>
     """
     Returns the node's type.
     """
     TermNodeParser(@regoNodeType(node))
 
-  fun node_type_name(node: RegoNode): String =>
+  fun node_type_name(node: _RegoNode): String =>
     """
     Returns the name of the node type as a human-readable string.
 
@@ -416,7 +416,7 @@ primitive _RegoFFI
     """
     recover val String.copy_cstring(@regoNodeTypeName(node)) end
 
-  fun node_value_size(node: RegoNode): RegoSize =>
+  fun node_value_size(node: _RegoNode): RegoSize =>
     """
     Returns the number of bytes needed to store a 0-terminated string
     representing the text value of the node.
@@ -426,7 +426,7 @@ primitive _RegoFFI
     """
     @regoNodeValueSize(node)
 
-  fun node_value(node: RegoNode, buffer: RegoApiBuffer tag,
+  fun node_value(node: _RegoNode, buffer: _RegoApiBuffer tag,
     size: RegoSize)
   =>
     """
@@ -437,13 +437,13 @@ primitive _RegoFFI
     """
     _ResultOkOrBufferTooSmallParser(@regoNodeValue(node, buffer, size))
 
-  fun node_size(node: RegoNode): RegoSize =>
+  fun node_size(node: _RegoNode): RegoSize =>
     """
     Returns the number of children of the node.
     """
     @regoNodeSize(node)
 
-  fun node_get(node: RegoNode, index: RegoSize): NullableRegoNodePtr val =>
+  fun node_get(node: _RegoNode, index: RegoSize): _NullableRegoNodePtr val =>
     """
     Returns the child node at the specified index.
 
@@ -451,7 +451,7 @@ primitive _RegoFFI
     """
     @regoNodeGet(node, index)
 
-  fun node_json_size(node: RegoNode): RegoSize =>
+  fun node_json_size(node: _RegoNode): RegoSize =>
     """
     Returns the number of bytes needed to store a 0-terminated string
     representing the JSON representation of the node.
@@ -461,8 +461,8 @@ primitive _RegoFFI
     """
     @regoNodeJSONSize(node)
 
-  fun node_json(node: RegoNode,
-    buffer: RegoApiBuffer tag,
+  fun node_json(node: _RegoNode,
+    buffer: _RegoApiBuffer tag,
     size: RegoSize)
   =>
     """

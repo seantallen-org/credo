@@ -1,7 +1,7 @@
 class val Output
-  let _output: RegoOutput
+  let _output: _RegoOutput
 
-  new val _create(output: RegoOutput) =>
+  new val _create(output: _RegoOutput) =>
     _output = output
 
   fun _final() =>
