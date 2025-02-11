@@ -142,7 +142,10 @@ primitive InternalNode is TermNodeType
   """
 
 primitive UnknownNode is TermNodeType
-  fun apply(): RegoEnum => RegoEnum.max_value()
+  """
+  An unknown node. This should never be returned. It exists in an Unreachable
+  branch solely to satisfy the compiler.
+  """
 
 primitive TermNodeParser
   fun apply(i: RegoEnum): TermNodeType =>
