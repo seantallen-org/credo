@@ -273,7 +273,7 @@ primitive _RegoFFI
     Performs a query against the current base and virtual documents.
 
     The query expression should be a Rego query. The output of the query
-    will be returned as a regoOutput object. The caller is responsible for
+    will be returned as a RegoOutputPtr. The caller is responsible for
     freeing the output object with `free_output`.
     """
     @regoQuery(rego, query_expr.cstring())
