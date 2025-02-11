@@ -1,15 +1,24 @@
-type OkOrError is (Ok | Error)
 primitive Ok
-primitive Error
 
-primitive ResultOkOrErrorParser
-  fun apply(i: RegoEnum): OkOrError =>
+type InterpreterResult is (Ok | InterpreterError)
+
+class val InterpreterError
+  """
+  Message carrier for an interpreter error.
+  """
+  let message: String
+
+  new val create(message': String) =>
+    message = message'
+
+primitive InterpreterResultParser
+  fun apply(i: RegoEnum, interpreter: RegoInterpreter): InterpreterResult =>
     match i
     | 0 => Ok
-    | 1 => Error
+    | 1 => InterpreterError(_RegoFFI.get_error(interpreter))
     else
       Unreachable()
-      Error
+      InterpreterError(_RegoFFI.get_error(interpreter))
     end
 
 primitive _BufferTooSmall

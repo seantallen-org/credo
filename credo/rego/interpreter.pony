@@ -9,69 +9,51 @@ class val Interpreter
   fun _final() =>
     _RegoFFI.free(_interpreter)
 
-  fun add_module_file(path: FilePath): OkOrError =>
+  fun add_module_file(path: FilePath): InterpreterResult =>
     """
     Adds a module (e.g. virtual document) from the file at the specified path.
-
-    If an error code is returned, more error information can be obtained by
-    calling `get_error`.
     """
     _RegoFFI.add_module_file(_interpreter, path.path)
 
-  fun add_module(name: String, contents: String): OkOrError =>
+  fun add_module(name: String, contents: String): InterpreterResult =>
     """
     Adds a module (e.g. virtual document) from the file at the specified string.
-
-    If an error code is returned, more error information can be obtained by
-    calling `get_error`.
     """
     _RegoFFI.add_module(_interpreter, name, contents)
 
-  fun add_data_json_file(path: FilePath): OkOrError =>
+  fun add_data_json_file(path: FilePath): InterpreterResult =>
     """
     Adds a base document from the file at the specified path.
 
     The file should contain a single JSON object. The object will be
     parsed and merged with the interpreter's base document.
-
-    If an error code is returned, more error information can be
-    obtained by calling `get_error`.
     """
     _RegoFFI.add_data_json_file(_interpreter, path.path)
 
-  fun add_data_json(contents: String): OkOrError =>
+  fun add_data_json(contents: String): InterpreterResult =>
     """
     Adds a base document from the file at the specified string.
 
     The file should contain a single JSON object. The object will be
     parsed and merged with the interpreter's base document.
-
-    If an error code is returned, more error information can be
-    obtained by calling `get_error`.
     """
     _RegoFFI.add_data_json(_interpreter, contents)
 
-  fun set_input_json_file(path: FilePath): OkOrError =>
+  fun set_input_json_file(path: FilePath): InterpreterResult =>
     """
     Sets the current input document from the file at the specified path.
 
     The file should contain a single JSON value. The value will be
     parsed and set as the interpreter's input document.
-
-    If an error code is returned, more error information can be
-    obtained by calling `get_error`.
     """
     _RegoFFI.set_input_json_file(_interpreter, path.path)
 
-  fun set_input_term(contents: String): OkOrError =>
+  fun set_input_term(contents: String): InterpreterResult =>
     """
     Sets the current input document from the specified string.
 
     The string should contain a single Rego data term. The value will be
     parsed and set as the interpreter's input document.
-
-    If an error code is returned, more error information can be
-    obtained by calling `get_error`.
     """
     _RegoFFI.set_input_term(_interpreter, contents)
 
@@ -93,16 +75,13 @@ class val Interpreter
     """
     _RegoFFI.get_debug_enabled(_interpreter)
 
-  fun set_debug_path(path: FilePath): OkOrError =>
+  fun set_debug_path(path: FilePath): InterpreterResult =>
     """
     Sets the path to the debug directory.
 
     If set, then (when in debug mode) the interpreter will output intermediary
     ASTs after each compiler pass to the debug directory. If the directory does
     not exist, it will be created.
-
-    If an error code is returned, more error information can be
-    obtained by calling `get_error`.
     """
     _RegoFFI.set_debug_path(_interpreter, path.path)
 
@@ -153,12 +132,3 @@ class val Interpreter
     the interpreter.
     """
     _RegoFFI.is_builtin(_interpreter, name)
-
-  fun get_error(): String =>
-    """
-    Returns the most recently thrown error.
-
-    If an error code is returned from an interface function, more error
-    information can be obtained by calling this function.
-    """
-    _RegoFFI.get_error(_interpreter)
