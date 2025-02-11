@@ -20,31 +20,31 @@ use @regoSetDebugPath[RegoEnum](rego: RegoInterpreter, path: RegoString tag)
 use @regoSetWellFormedChecksEnabled[None](rego: RegoInterpreter,
   enabled: RegoBool)
 use @regoGetWellFormedChecksEnabled[RegoBool](rego: RegoInterpreter)
-use @regoQuery[RegoOutputPtr tag](rego: RegoInterpreter,
+use @regoQuery[RegoOutput](rego: RegoInterpreter,
   query_expr: RegoString tag)
 use @regoSetStrictBuiltInErrors[None](rego: RegoInterpreter, enabled: RegoBool)
 use @regoGetStrictBuiltInErrors[RegoBool](rego: RegoInterpreter)
 use @regoIsBuiltIn[RegoBool](rego: RegoInterpreter, name: RegoString tag)
 use @regoGetError[RegoString](rego: RegoInterpreter)
 // Output functions
-use @regoOutputOk[RegoBool](output: RegoOutputPtr tag)
-use @regoOutputSize[RegoSize](output: RegoOutputPtr tag)
+use @regoOutputOk[RegoBool](output: RegoOutput)
+use @regoOutputSize[RegoSize](output: RegoOutput)
 use @regoOutputExpressionsAtIndex[NullableRegoNodePtr val](
-  output: RegoOutputPtr tag,
+  output: RegoOutput,
   index: RegoSize)
-use @regoOutputExpressions[NullableRegoNodePtr val](output: RegoOutputPtr tag)
-use @regoOutputNode[RegoNode](output: RegoOutputPtr tag)
-use @regoOutputBindingAtIndex[NullableRegoNodePtr val](output: RegoOutputPtr tag,
+use @regoOutputExpressions[NullableRegoNodePtr val](output: RegoOutput)
+use @regoOutputNode[RegoNode](output: RegoOutput)
+use @regoOutputBindingAtIndex[NullableRegoNodePtr val](output: RegoOutput,
   index: RegoSize,
   name: RegoString tag)
-use @regoOutputBinding[NullableRegoNodePtr val](output: RegoOutputPtr tag,
+use @regoOutputBinding[NullableRegoNodePtr val](output: RegoOutput,
   name: RegoString tag)
-use @regoOutputJSONSize[RegoSize](output: RegoOutputPtr tag)
-use @regoOutputJSON[RegoEnum](output: RegoOutputPtr tag,
+use @regoOutputJSONSize[RegoSize](output: RegoOutput)
+use @regoOutputJSON[RegoEnum](output: RegoOutput,
   buffer: RegoApiBuffer tag,
   size: RegoSize)
-use @regoOutputString[RegoString](output: RegoOutputPtr tag)
-use @regoFreeOutput[None](output: RegoOutputPtr tag)
+use @regoOutputString[RegoString](output: RegoOutput)
+use @regoFreeOutput[None](output: RegoOutput)
 // Node functions
 use @regoNodeType[RegoEnum](node: RegoNode)
 use @regoNodeTypeName[RegoString](node: RegoNode)
@@ -61,7 +61,6 @@ use @regoNodeJSON[RegoEnum](node: RegoNode, buffer: RegoApiBuffer tag,
 type RegoEnum is U32
 type RegoString is Pointer[U8]
 type RegoBool is U8
-type RegoOutputPtr is Pointer[RegoOutput]
 type NullableRegoNodePtr is NullablePointer[RegoNode]
 type RegoSize is U32
 type RegoApiBuffer is Pointer[U8]
@@ -240,12 +239,12 @@ primitive _RegoFFI
     """
     @regoGetWellFormedChecksEnabled(rego) == 1
 
-  fun query(rego: RegoInterpreter, query_expr: String): RegoOutputPtr tag =>
+  fun query(rego: RegoInterpreter, query_expr: String): RegoOutput =>
     """
     Performs a query against the current base and virtual documents.
 
     The query expression should be a Rego query. The output of the query
-    will be returned as a RegoOutputPtr. The caller is responsible for
+    will be returned as a RegoOutput. The caller is responsible for
     freeing the output object with `free_output`.
     """
     @regoQuery(rego, query_expr.cstring())
@@ -288,7 +287,7 @@ primitive _RegoFFI
   // Output functions
   //
 
-  fun output_ok(output: RegoOutputPtr tag): Bool =>
+  fun output_ok(output: RegoOutput): Bool =>
     """
     Returns whether the output is ok.
 
@@ -298,7 +297,7 @@ primitive _RegoFFI
     """
     @regoOutputOk(output) == 1
 
-  fun output_size(output: RegoOutputPtr tag): RegoSize =>
+  fun output_size(output: RegoOutput): RegoSize =>
     """
     Returns the number of results in the output.
 
@@ -307,7 +306,7 @@ primitive _RegoFFI
     """
     @regoOutputSize(output)
 
-  fun output_expressions_at_index(output: RegoOutputPtr tag,
+  fun output_expressions_at_index(output: RegoOutput,
     index: RegoSize): NullableRegoNodePtr val
   =>
     """
@@ -316,14 +315,14 @@ primitive _RegoFFI
     """
     @regoOutputExpressionsAtIndex(output, index)
 
-  fun output_expressions(output: RegoOutputPtr tag): NullableRegoNodePtr val =>
+  fun output_expressions(output: RegoOutput): NullableRegoNodePtr val =>
     """
     Returns a node containing a list of terms resulting from the query
     at the default index.
     """
     @regoOutputExpressions(output)
 
-  fun output_node(output: RegoOutputPtr tag): RegoNode =>
+  fun output_node(output: RegoOutput): RegoNode =>
     """
     Returns the node containing the output of the query.
 
@@ -332,7 +331,7 @@ primitive _RegoFFI
     """
     @regoOutputNode(output)
 
-  fun output_binding_at_index(output: RegoOutputPtr tag,
+  fun output_binding_at_index(output: RegoOutput,
     index: RegoSize, name: String): NullableRegoNodePtr val
   =>
     """
@@ -342,7 +341,7 @@ primitive _RegoFFI
     """
     @regoOutputBindingAtIndex(output, index, name.cstring())
 
-  fun output_binding(output: RegoOutputPtr tag,
+  fun output_binding(output: RegoOutput,
     name: String): NullableRegoNodePtr val
   =>
     """
@@ -352,7 +351,7 @@ primitive _RegoFFI
     """
     @regoOutputBinding(output, name.cstring())
 
-  fun output_json_size(output: RegoOutputPtr tag): RegoSize =>
+  fun output_json_size(output: RegoOutput): RegoSize =>
     """
     Returns the number of bytes needed to store a 0-terminated string
     representing the output as a human-readable string.
@@ -362,7 +361,7 @@ primitive _RegoFFI
     """
     @regoOutputJSONSize(output)
 
-  fun output_json(output: RegoOutputPtr tag,
+  fun output_json(output: RegoOutput,
     buffer: RegoApiBuffer tag,
     size: RegoSize): OkOrBufferTooSmall
   =>
@@ -374,15 +373,15 @@ primitive _RegoFFI
     """
     ResultOkOrBufferTooSmallParser(@regoOutputJSON(output, buffer, size))
 
-  fun output_string(output: RegoOutputPtr tag): String =>
+  fun output_string(output: RegoOutput): String =>
     """
     Returns the output represented as a human-readable string.
     """
     recover val String.copy_cstring(@regoOutputString(output)) end
 
-  fun free_output(output: RegoOutputPtr tag) =>
+  fun free_output(output: RegoOutput) =>
     """
-    Frees a `RegoOutputPtr`.
+    Frees a `RegoOutput`.
 
     This pointer must have been allocated with `query`.
     """

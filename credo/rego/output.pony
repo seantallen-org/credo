@@ -1,7 +1,7 @@
 class val Output
-  let _output: RegoOutputPtr tag
+  let _output: RegoOutput
 
-  new val _create(output: RegoOutputPtr tag) =>
+  new val _create(output: RegoOutput) =>
     _output = output
 
   fun _final() =>
