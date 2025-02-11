@@ -1,5 +1,5 @@
 class val Interpreter
-  let _interpreter: RegoInterpreterPtr tag
+  let _interpreter: RegoInterpreter
 
   new val create() =>
     _interpreter = _RegoFFI.interpreter()

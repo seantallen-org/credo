@@ -4,36 +4,28 @@ use "lib:rego-standalone"
 use @regoBuildInfo[RegoString]()
 use @regoVersion[RegoString]()
 use @regoSetLogLevel[RegoEnum](level: RegoEnum)
-use @regoNewV1[RegoInterpreterPtr tag]()
-use @regoFree[None](rego: RegoInterpreterPtr tag)
-use @regoAddModuleFile[RegoEnum](rego: RegoInterpreterPtr tag,
-  path: RegoString tag)
-use @regoAddModule[RegoEnum](rego: RegoInterpreterPtr tag,
+use @regoNewV1[RegoInterpreter]()
+use @regoFree[None](rego: RegoInterpreter)
+use @regoAddModuleFile[RegoEnum](rego: RegoInterpreter, path: RegoString tag)
+use @regoAddModule[RegoEnum](rego: RegoInterpreter,
   name: RegoString tag,
   contents: RegoString tag)
-use @regoAddDataJSONFile[RegoEnum](rego: RegoInterpreterPtr tag,
-  path: RegoString tag)
-use @regoAddDataJSON[RegoEnum](rego: RegoInterpreterPtr tag,
-  contents: RegoString tag)
-use @regoSetInputJSONFile[RegoEnum](rego: RegoInterpreterPtr tag,
-  path: RegoString tag)
-use @regoSetInputTerm[RegoEnum](rego: RegoInterpreterPtr tag,
-  contents: RegoString tag)
-use @regoSetDebugEnabled[None](rego: RegoInterpreterPtr tag,
+use @regoAddDataJSONFile[RegoEnum](rego: RegoInterpreter, path: RegoString tag)
+use @regoAddDataJSON[RegoEnum](rego: RegoInterpreter, contents: RegoString tag)
+use @regoSetInputJSONFile[RegoEnum](rego: RegoInterpreter, path: RegoString tag)
+use @regoSetInputTerm[RegoEnum](rego: RegoInterpreter, contents: RegoString tag)
+use @regoSetDebugEnabled[None](rego: RegoInterpreter, enabled: RegoBool)
+use @regoGetDebugEnabled[RegoBool](rego: RegoInterpreter)
+use @regoSetDebugPath[RegoEnum](rego: RegoInterpreter, path: RegoString tag)
+use @regoSetWellFormedChecksEnabled[None](rego: RegoInterpreter,
   enabled: RegoBool)
-use @regoGetDebugEnabled[RegoBool](rego: RegoInterpreterPtr tag)
-use @regoSetDebugPath[RegoEnum](rego: RegoInterpreterPtr tag,
-  path: RegoString tag)
-use @regoSetWellFormedChecksEnabled[None](rego: RegoInterpreterPtr tag,
-  enabled: RegoBool)
-use @regoGetWellFormedChecksEnabled[RegoBool](rego: RegoInterpreterPtr tag)
-use @regoQuery[RegoOutputPtr tag](rego: RegoInterpreterPtr tag,
+use @regoGetWellFormedChecksEnabled[RegoBool](rego: RegoInterpreter)
+use @regoQuery[RegoOutputPtr tag](rego: RegoInterpreter,
   query_expr: RegoString tag)
-use @regoSetStrictBuiltInErrors[None](rego: RegoInterpreterPtr tag,
-  enabled: RegoBool)
-use @regoGetStrictBuiltInErrors[RegoBool](rego: RegoInterpreterPtr tag)
-use @regoIsBuiltIn[RegoBool](rego: RegoInterpreterPtr tag, name: RegoString tag)
-use @regoGetError[RegoString](rego: RegoInterpreterPtr tag)
+use @regoSetStrictBuiltInErrors[None](rego: RegoInterpreter, enabled: RegoBool)
+use @regoGetStrictBuiltInErrors[RegoBool](rego: RegoInterpreter)
+use @regoIsBuiltIn[RegoBool](rego: RegoInterpreter, name: RegoString tag)
+use @regoGetError[RegoString](rego: RegoInterpreter)
 // Output functions
 use @regoOutputOk[RegoBool](output: RegoOutputPtr tag)
 use @regoOutputSize[RegoSize](output: RegoOutputPtr tag)
@@ -68,10 +60,8 @@ use @regoNodeJSON[RegoEnum](node: RegoNode, buffer: RegoApiBuffer tag,
 // Type aliases
 type RegoEnum is U32
 type RegoString is Pointer[U8]
-type RegoInterpreterPtr is Pointer[RegoInterpreter]
 type RegoBool is U8
 type RegoOutputPtr is Pointer[RegoOutput]
-type RegoNodePtr is Pointer[RegoNode]
 type NullableRegoNodePtr is NullablePointer[RegoNode]
 type RegoSize is U32
 type RegoApiBuffer is Pointer[U8]
@@ -112,7 +102,7 @@ primitive _RegoFFI
     """
     ResultOkOrInvalidLogLevelParser(@regoSetLogLevel(level()))
 
-  fun interpreter(): RegoInterpreterPtr tag =>
+  fun interpreter(): RegoInterpreter =>
     """
     Allocates and initializes a new Rego interpreter.
 
@@ -120,7 +110,7 @@ primitive _RegoFFI
     """
     @regoNewV1()
 
-  fun free(rego: RegoInterpreterPtr tag) =>
+  fun free(rego: RegoInterpreter) =>
     """
     Frees a Rego interpreter.
 
@@ -128,9 +118,7 @@ primitive _RegoFFI
     """
     @regoFree(rego)
 
-  fun add_module_file(rego: RegoInterpreterPtr tag,
-    path: String): OkOrError
-  =>
+  fun add_module_file(rego: RegoInterpreter, path: String): OkOrError =>
     """
     Adds a module (e.g. virtual document) from the file at the specified path.
 
@@ -139,7 +127,7 @@ primitive _RegoFFI
     """
     ResultOkOrErrorParser(@regoAddModuleFile(rego, path.cstring()))
 
-  fun add_module(rego: RegoInterpreterPtr tag,
+  fun add_module(rego: RegoInterpreter,
     name: String,
     contents: String): OkOrError
   =>
@@ -152,9 +140,7 @@ primitive _RegoFFI
     ResultOkOrErrorParser(
       @regoAddModule(rego, name.cstring(), contents.cstring()))
 
-  fun add_data_json_file(rego: RegoInterpreterPtr tag,
-    path: String): OkOrError
-  =>
+  fun add_data_json_file(rego: RegoInterpreter, path: String): OkOrError =>
     """
     Adds a base document from the file at the specified path.
 
@@ -166,9 +152,7 @@ primitive _RegoFFI
     """
     ResultOkOrErrorParser(@regoAddDataJSONFile(rego, path.cstring()))
 
-  fun add_data_json(rego: RegoInterpreterPtr tag,
-    contents: String): OkOrError
-  =>
+  fun add_data_json(rego: RegoInterpreter, contents: String): OkOrError =>
     """
     Adds a base document from the file at the specified string.
 
@@ -180,9 +164,7 @@ primitive _RegoFFI
     """
     ResultOkOrErrorParser(@regoAddDataJSONFile(rego, contents.cstring()))
 
-  fun set_input_json_file(rego: RegoInterpreterPtr tag,
-    path: String): OkOrError
-  =>
+  fun set_input_json_file(rego: RegoInterpreter, path: String): OkOrError =>
     """
     Sets the current input document from the file at the specified path.
 
@@ -194,9 +176,7 @@ primitive _RegoFFI
     """
     ResultOkOrErrorParser(@regoSetInputJSONFile(rego, path.cstring()))
 
-  fun set_input_term(rego: RegoInterpreterPtr tag,
-    contents: String): OkOrError
-  =>
+  fun set_input_term(rego: RegoInterpreter, contents: String): OkOrError =>
     """
     Sets the current input document from the specified string.
 
@@ -208,9 +188,7 @@ primitive _RegoFFI
     """
     ResultOkOrErrorParser(@regoSetInputJSONFile(rego, contents.cstring()))
 
-  fun set_debug_enabled(rego: RegoInterpreterPtr tag,
-    enabled: Bool)
-  =>
+  fun set_debug_enabled(rego: RegoInterpreter, enabled: Bool) =>
     """
     Sets the debug mode of the interpreter.
 
@@ -224,15 +202,13 @@ primitive _RegoFFI
 
     @regoSetDebugEnabled(rego, e)
 
-  fun get_debug_enabled(rego: RegoInterpreterPtr tag): Bool =>
+  fun get_debug_enabled(rego: RegoInterpreter): Bool =>
     """
     Gets the debug mode of the interpreter.
     """
     @regoGetDebugEnabled(rego) == 1
 
-  fun set_debug_path(rego: RegoInterpreterPtr tag,
-    path: String): OkOrError
-  =>
+  fun set_debug_path(rego: RegoInterpreter, path: String): OkOrError =>
     """
     Sets the path to the debug directory.
 
@@ -245,9 +221,7 @@ primitive _RegoFFI
     """
     ResultOkOrErrorParser(@regoSetDebugPath(rego, path.cstring()))
 
-  fun set_well_formed_checks_enabled(rego: RegoInterpreterPtr tag,
-    enabled: Bool)
-  =>
+  fun set_well_formed_checks_enabled(rego: RegoInterpreter, enabled: Bool) =>
     """
     Sets whether to perform well-formed checks after each compiler pass.
 
@@ -260,15 +234,13 @@ primitive _RegoFFI
 
     @regoSetWellFormedChecksEnabled(rego, e)
 
-  fun get_well_formed_checks_enabled(rego: RegoInterpreterPtr tag): Bool =>
+  fun get_well_formed_checks_enabled(rego: RegoInterpreter): Bool =>
     """
     Gets whether well-formed checks are enabled.
     """
     @regoGetWellFormedChecksEnabled(rego) == 1
 
-  fun query(rego: RegoInterpreterPtr tag,
-    query_expr: String): RegoOutputPtr tag
-  =>
+  fun query(rego: RegoInterpreter, query_expr: String): RegoOutputPtr tag =>
     """
     Performs a query against the current base and virtual documents.
 
@@ -278,9 +250,7 @@ primitive _RegoFFI
     """
     @regoQuery(rego, query_expr.cstring())
 
-  fun set_strict_builtin_errors(rego: RegoInterpreterPtr tag,
-    enabled: Bool)
-  =>
+  fun set_strict_builtin_errors(rego: RegoInterpreter, enabled: Bool) =>
     """
     Sets whether the built-ins should throw errors.
 
@@ -292,22 +262,20 @@ primitive _RegoFFI
 
     @regoSetStrictBuiltInErrors(rego, e)
 
-  fun get_strict_builtin_errors(rego: RegoInterpreterPtr tag): Bool =>
+  fun get_strict_builtin_errors(rego: RegoInterpreter): Bool =>
     """
     Gets whether strict built-in errors are enabled.
     """
     @regoGetStrictBuiltInErrors(rego) == 1
 
-  fun is_builtin(rego: RegoInterpreterPtr tag,
-    name: String): Bool
-  =>
+  fun is_builtin(rego: RegoInterpreter, name: String): Bool =>
     """
     Returns whether the specified name corresponds to an available built-in in
     the interpreter.
     """
     @regoIsBuiltIn(rego, name.cstring()) == 1
 
-  fun get_error(rego: RegoInterpreterPtr tag): String =>
+  fun get_error(rego: RegoInterpreter): String =>
     """
     Returns the most recently thrown error.
 
