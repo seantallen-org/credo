@@ -52,7 +52,7 @@ class val Node
     let ptr = _RegoFFI.node_get(_node, index)
     Node._create(ptr()?)
 
-  fun json_size(node: RegoNodePtr tag): RegoSize =>
+  fun json_size(): RegoSize =>
     """
     Returns the number of bytes needed to store a 0-terminated string
     representing the JSON representation of the node.
