@@ -89,6 +89,7 @@ primitive RegoFFI
   //
   // Interpreter functions
   //
+
   fun build_info(): String =>
     """
     Returns a string of the form
@@ -318,6 +319,7 @@ primitive RegoFFI
   //
   // Output functions
   //
+
   fun output_ok(output: RegoOutputPtr tag): Bool =>
     """
     Returns whether the output is ok.
