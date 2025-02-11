@@ -37,15 +37,15 @@ use @regoGetError[RegoString](rego: RegoInterpreterPtr tag)
 // Output functions
 use @regoOutputOk[RegoBool](output: RegoOutputPtr tag)
 use @regoOutputSize[RegoSize](output: RegoOutputPtr tag)
-use @regoOutputExpressionsAtIndex[NullableRegoNodePtr](
+use @regoOutputExpressionsAtIndex[NullableRegoNodePtr val](
   output: RegoOutputPtr tag,
   index: RegoSize)
-use @regoOutputExpressions[NullableRegoNodePtr](output: RegoOutputPtr tag)
-use @regoOutputNode[RegoNodePtr](output: RegoOutputPtr tag)
-use @regoOutputBindingAtIndex[NullableRegoNodePtr](output: RegoOutputPtr tag,
+use @regoOutputExpressions[NullableRegoNodePtr val](output: RegoOutputPtr tag)
+use @regoOutputNode[RegoNode](output: RegoOutputPtr tag)
+use @regoOutputBindingAtIndex[NullableRegoNodePtr val](output: RegoOutputPtr tag,
   index: RegoSize,
   name: RegoString tag)
-use @regoOutputBinding[NullableRegoNodePtr](output: RegoOutputPtr tag,
+use @regoOutputBinding[NullableRegoNodePtr val](output: RegoOutputPtr tag,
   name: RegoString tag)
 use @regoOutputJSONSize[RegoSize](output: RegoOutputPtr tag)
 use @regoOutputJSON[RegoEnum](output: RegoOutputPtr tag,
@@ -60,7 +60,7 @@ use @regoNodeValueSize[RegoSize](node: RegoNodePtr tag)
 use @regoNodeValue[RegoEnum](node: RegoNodePtr tag, buffer: RegoApiBuffer tag,
   size: RegoSize)
 use @regoNodeSize[RegoSize](node: RegoNodePtr tag)
-use @regoNodeGet[NullableRegoNodePtr](node: RegoNodePtr tag, index: RegoSize)
+use @regoNodeGet[NullableRegoNodePtr val](node: RegoNodePtr tag, index: RegoSize)
 use @regoNodeJSONSize[RegoSize](node: RegoNodePtr tag)
 use @regoNodeJSON[RegoEnum](node: RegoNodePtr tag, buffer: RegoApiBuffer tag,
   size: RegoSize)
@@ -77,9 +77,9 @@ type RegoSize is U32
 type RegoApiBuffer is Pointer[U8]
 
 // Types for the various void* pointers that the rego-cpp C-API exposes
-struct RegoInterpreter
-struct RegoOutput
-struct RegoNode
+struct val RegoInterpreter
+struct val RegoOutput
+struct val RegoNode
 
 primitive _RegoFFI
   """
@@ -340,7 +340,7 @@ primitive _RegoFFI
     @regoOutputSize(output)
 
   fun output_expressions_at_index(output: RegoOutputPtr tag,
-    index: RegoSize): NullableRegoNodePtr
+    index: RegoSize): NullableRegoNodePtr val
   =>
     """
     Returns a node containing a list of terms resulting from the query at
@@ -348,14 +348,14 @@ primitive _RegoFFI
     """
     @regoOutputExpressionsAtIndex(output, index)
 
-  fun output_expressions(output: RegoOutputPtr tag): NullableRegoNodePtr =>
+  fun output_expressions(output: RegoOutputPtr tag): NullableRegoNodePtr val =>
     """
     Returns a node containing a list of terms resulting from the query
     at the default index.
     """
     @regoOutputExpressions(output)
 
-  fun output_node(output: RegoOutputPtr tag): RegoNodePtr =>
+  fun output_node(output: RegoOutputPtr tag): RegoNode =>
     """
     Returns the node containing the output of the query.
 
@@ -365,7 +365,7 @@ primitive _RegoFFI
     @regoOutputNode(output)
 
   fun output_binding_at_index(output: RegoOutputPtr tag,
-    index: RegoSize, name: String): NullableRegoNodePtr
+    index: RegoSize, name: String): NullableRegoNodePtr val
   =>
     """
     Returns the bound value for a given variable name.
@@ -375,7 +375,7 @@ primitive _RegoFFI
     @regoOutputBindingAtIndex(output, index, name.cstring())
 
   fun output_binding(output: RegoOutputPtr tag,
-    name: String): NullableRegoNodePtr
+    name: String): NullableRegoNodePtr val
   =>
     """
     Returns the bound value for a given variable name at the first index.
@@ -390,23 +390,23 @@ primitive _RegoFFI
     representing the output as a human-readable string.
 
     The value returned by this function can be used to allocate a buffer to
-    pass to regoOutputJSON.
+    pass to `output_json`.
     """
     @regoOutputJSONSize(output)
 
   fun output_json(output: RegoOutputPtr tag,
-    buffer: Array[U8] iso,
+    buffer: RegoApiBuffer tag,
     size: RegoSize): OkOrBufferTooSmall
   =>
     """
     Populate a buffer with the output represented as a human-readable string.
 
     The buffer must be large enough to hold the value. The size of the buffer
-    can be determined by calling regoOutputJSONSize.
+    can be determined by calling `output_json_size`.
     """
-    ResultOkOrBufferTooSmallParser(@regoOutputJSON(output, buffer.cpointer(), size))
+    ResultOkOrBufferTooSmallParser(@regoOutputJSON(output, buffer, size))
 
-  fun output_string(output: RegoOutputPtr): String =>
+  fun output_string(output: RegoOutputPtr tag): String =>
     """
     Returns the output represented as a human-readable string.
     """
@@ -449,7 +449,7 @@ primitive _RegoFFI
     """
     @regoNodeValueSize(node)
 
-  fun node_value(node: RegoNodePtr tag, buffer: Array[U8] iso,
+  fun node_value(node: RegoNodePtr tag, buffer: RegoApiBuffer tag,
     size: RegoSize): OkOrBufferTooSmall
   =>
     """
@@ -458,7 +458,7 @@ primitive _RegoFFI
     The buffer must be large enough to hold the value. The size of the buffer
     can be determined by calling `node_size_value`.
     """
-    ResultOkOrBufferTooSmallParser(@regoNodeValue(node, buffer.cpointer(), size))
+    ResultOkOrBufferTooSmallParser(@regoNodeValue(node, buffer, size))
 
   fun node_size(node: RegoNodePtr tag): RegoSize =>
     """
@@ -466,7 +466,7 @@ primitive _RegoFFI
     """
     @regoNodeSize(node)
 
-  fun node_get(node: RegoNodePtr tag, index: RegoSize): NullableRegoNodePtr =>
+  fun node_get(node: RegoNodePtr tag, index: RegoSize): NullableRegoNodePtr val =>
     """
     Returns the child node at the specified index.
 
@@ -484,7 +484,7 @@ primitive _RegoFFI
     """
     @regoNodeJSONSize(node)
 
-  fun node_json(node: RegoNodePtr tag, buffer: Array[U8] iso,
+  fun node_json(node: RegoNodePtr tag, buffer: RegoApiBuffer tag,
     size: RegoSize): OkOrBufferTooSmall
   =>
     """
@@ -493,4 +493,4 @@ primitive _RegoFFI
     The buffer must be large enough to hold the value. The size of the buffer
     can be determined by calling regoNodeJSONSize.
     """
-    ResultOkOrBufferTooSmallParser(@regoNodeJSON(node, buffer.cpointer(), size))
+    ResultOkOrBufferTooSmallParser(@regoNodeJSON(node, buffer, size))
