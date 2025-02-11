@@ -1,14 +1,6 @@
 type OkOrError is (Ok | Error)
-type OkOrBufferTooSmall is (Ok | BufferTooSmall)
-type OkOrInvalidLogLevel is (Ok | InvalidLogLevel)
-
 primitive Ok
-
 primitive Error
-
-primitive BufferTooSmall
-
-primitive InvalidLogLevel
 
 primitive ResultOkOrErrorParser
   fun apply(i: RegoEnum): OkOrError =>
@@ -20,6 +12,9 @@ primitive ResultOkOrErrorParser
       Error
     end
 
+type OkOrBufferTooSmall is (Ok | BufferTooSmall)
+primitive BufferTooSmall
+
 primitive ResultOkOrBufferTooSmallParser
   fun apply(i: RegoEnum): OkOrBufferTooSmall =>
     match i
@@ -29,6 +24,9 @@ primitive ResultOkOrBufferTooSmallParser
       Unreachable()
       BufferTooSmall
     end
+
+type OkOrInvalidLogLevel is (Ok | InvalidLogLevel)
+primitive InvalidLogLevel
 
 primitive ResultOkOrInvalidLogLevelParser
   fun apply(i: RegoEnum): OkOrInvalidLogLevel =>
