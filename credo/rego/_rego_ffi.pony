@@ -117,18 +117,18 @@ primitive _RegoFFI
     """
     @regoFree(rego)
 
-  fun add_module_file(rego: RegoInterpreter, path: String): OkOrError =>
+  fun add_module_file(rego: RegoInterpreter, path: String): InterpreterResult =>
     """
     Adds a module (e.g. virtual document) from the file at the specified path.
 
     If an error code is returned, more error information can be obtained by
     calling `get_error`.
     """
-    ResultOkOrErrorParser(@regoAddModuleFile(rego, path.cstring()))
+    InterpreterResultParser(@regoAddModuleFile(rego, path.cstring()), rego)
 
   fun add_module(rego: RegoInterpreter,
     name: String,
-    contents: String): OkOrError
+    contents: String): InterpreterResult
   =>
     """
     Adds a module (e.g. virtual document) from the file at the specified string.
@@ -136,10 +136,12 @@ primitive _RegoFFI
     If an error code is returned, more error information can be obtained by
     calling `get_error`.
     """
-    ResultOkOrErrorParser(
-      @regoAddModule(rego, name.cstring(), contents.cstring()))
+    InterpreterResultParser(
+      @regoAddModule(rego, name.cstring(), contents.cstring()), rego)
 
-  fun add_data_json_file(rego: RegoInterpreter, path: String): OkOrError =>
+  fun add_data_json_file(rego: RegoInterpreter,
+    path: String): InterpreterResult
+  =>
     """
     Adds a base document from the file at the specified path.
 
@@ -149,9 +151,11 @@ primitive _RegoFFI
     If an error code is returned, more error information can be
     obtained by calling `get_error`.
     """
-    ResultOkOrErrorParser(@regoAddDataJSONFile(rego, path.cstring()))
+    InterpreterResultParser(@regoAddDataJSONFile(rego, path.cstring()), rego)
 
-  fun add_data_json(rego: RegoInterpreter, contents: String): OkOrError =>
+  fun add_data_json(rego: RegoInterpreter,
+    contents: String): InterpreterResult
+  =>
     """
     Adds a base document from the file at the specified string.
 
@@ -161,9 +165,12 @@ primitive _RegoFFI
     If an error code is returned, more error information can be
     obtained by calling `get_error`.
     """
-    ResultOkOrErrorParser(@regoAddDataJSONFile(rego, contents.cstring()))
+    InterpreterResultParser(
+      @regoAddDataJSONFile(rego, contents.cstring()), rego)
 
-  fun set_input_json_file(rego: RegoInterpreter, path: String): OkOrError =>
+  fun set_input_json_file(rego: RegoInterpreter,
+    path: String): InterpreterResult
+  =>
     """
     Sets the current input document from the file at the specified path.
 
@@ -173,9 +180,11 @@ primitive _RegoFFI
     If an error code is returned, more error information can be
     obtained by calling `get_error`.
     """
-    ResultOkOrErrorParser(@regoSetInputJSONFile(rego, path.cstring()))
+    InterpreterResultParser(@regoSetInputJSONFile(rego, path.cstring()), rego)
 
-  fun set_input_term(rego: RegoInterpreter, contents: String): OkOrError =>
+  fun set_input_term(rego: RegoInterpreter,
+    contents: String): InterpreterResult
+  =>
     """
     Sets the current input document from the specified string.
 
@@ -185,7 +194,8 @@ primitive _RegoFFI
     If an error code is returned, more error information can be
     obtained by calling `get_error`.
     """
-    ResultOkOrErrorParser(@regoSetInputJSONFile(rego, contents.cstring()))
+    InterpreterResultParser(
+      @regoSetInputJSONFile(rego, contents.cstring()), rego)
 
   fun set_debug_enabled(rego: RegoInterpreter, enabled: Bool) =>
     """
@@ -207,7 +217,7 @@ primitive _RegoFFI
     """
     @regoGetDebugEnabled(rego) == 1
 
-  fun set_debug_path(rego: RegoInterpreter, path: String): OkOrError =>
+  fun set_debug_path(rego: RegoInterpreter, path: String): InterpreterResult =>
     """
     Sets the path to the debug directory.
 
@@ -218,7 +228,7 @@ primitive _RegoFFI
     If an error code is returned, more error information can be
     obtained by calling `get_error`.
     """
-    ResultOkOrErrorParser(@regoSetDebugPath(rego, path.cstring()))
+    InterpreterResultParser(@regoSetDebugPath(rego, path.cstring()), rego)
 
   fun set_well_formed_checks_enabled(rego: RegoInterpreter, enabled: Bool) =>
     """
