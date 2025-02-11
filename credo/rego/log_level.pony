@@ -21,21 +21,3 @@ primitive DebugLevel is LogLevel
 
 primitive TraceLevel is LogLevel
   fun apply(): RegoEnum => 6
-
-primitive UnknownLevel is LogLevel
-  fun apply(): RegoEnum => RegoEnum.max_value()
-
-primitive LogLevelParser
-  fun apply(i: RegoEnum): LogLevel =>
-    match i
-    | 0 => NoneLevel
-    | 1 => ErrorLevel
-    | 2 => OutputLevel
-    | 3 => WarnLevel
-    | 4 => InfoLevel
-    | 5 => DebugLevel
-    | 6 => TraceLevel
-    else
-      _Unreachable()
-      UnknownLevel
-    end
