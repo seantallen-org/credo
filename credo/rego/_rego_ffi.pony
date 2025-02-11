@@ -81,7 +81,7 @@ struct RegoInterpreter
 struct RegoOutput
 struct RegoNode
 
-primitive RegoFFI
+primitive _RegoFFI
   """
   Wrapper module for all rego-cpp C-API functions
   """
