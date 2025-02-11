@@ -124,7 +124,7 @@ primitive _RegoFFI
     If an error code is returned, more error information can be obtained by
     calling `get_error`.
     """
-    InterpreterResultParser(@regoAddModuleFile(rego, path.cstring()), rego)
+    _InterpreterResultParser(@regoAddModuleFile(rego, path.cstring()), rego)
 
   fun add_module(rego: RegoInterpreter,
     name: String,
@@ -136,7 +136,7 @@ primitive _RegoFFI
     If an error code is returned, more error information can be obtained by
     calling `get_error`.
     """
-    InterpreterResultParser(
+    _InterpreterResultParser(
       @regoAddModule(rego, name.cstring(), contents.cstring()), rego)
 
   fun add_data_json_file(rego: RegoInterpreter,
@@ -151,7 +151,7 @@ primitive _RegoFFI
     If an error code is returned, more error information can be
     obtained by calling `get_error`.
     """
-    InterpreterResultParser(@regoAddDataJSONFile(rego, path.cstring()), rego)
+    _InterpreterResultParser(@regoAddDataJSONFile(rego, path.cstring()), rego)
 
   fun add_data_json(rego: RegoInterpreter,
     contents: String): InterpreterResult
@@ -165,7 +165,7 @@ primitive _RegoFFI
     If an error code is returned, more error information can be
     obtained by calling `get_error`.
     """
-    InterpreterResultParser(
+    _InterpreterResultParser(
       @regoAddDataJSONFile(rego, contents.cstring()), rego)
 
   fun set_input_json_file(rego: RegoInterpreter,
@@ -180,7 +180,7 @@ primitive _RegoFFI
     If an error code is returned, more error information can be
     obtained by calling `get_error`.
     """
-    InterpreterResultParser(@regoSetInputJSONFile(rego, path.cstring()), rego)
+    _InterpreterResultParser(@regoSetInputJSONFile(rego, path.cstring()), rego)
 
   fun set_input_term(rego: RegoInterpreter,
     contents: String): InterpreterResult
@@ -194,7 +194,7 @@ primitive _RegoFFI
     If an error code is returned, more error information can be
     obtained by calling `get_error`.
     """
-    InterpreterResultParser(
+    _InterpreterResultParser(
       @regoSetInputJSONFile(rego, contents.cstring()), rego)
 
   fun set_debug_enabled(rego: RegoInterpreter, enabled: Bool) =>
@@ -228,7 +228,7 @@ primitive _RegoFFI
     If an error code is returned, more error information can be
     obtained by calling `get_error`.
     """
-    InterpreterResultParser(@regoSetDebugPath(rego, path.cstring()), rego)
+    _InterpreterResultParser(@regoSetDebugPath(rego, path.cstring()), rego)
 
   fun set_well_formed_checks_enabled(rego: RegoInterpreter, enabled: Bool) =>
     """

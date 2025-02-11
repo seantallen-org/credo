@@ -11,7 +11,7 @@ class val InterpreterError
   new val create(message': String) =>
     message = message'
 
-primitive InterpreterResultParser
+primitive _InterpreterResultParser
   fun apply(i: RegoEnum, interpreter: RegoInterpreter): InterpreterResult =>
     match i
     | 0 => Ok
