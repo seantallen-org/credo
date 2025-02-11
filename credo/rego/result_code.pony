@@ -12,40 +12,40 @@ primitive ResultOkOrErrorParser
       Error
     end
 
-primitive BufferTooSmall
+primitive _BufferTooSmall
   """
   This should never happen based on our usage of the FFI.
   If it does, it's a bug and we panic.
   """
 
-primitive ResultOkOrBufferTooSmallParser
+primitive _ResultOkOrBufferTooSmallParser
   // Based on our usage, we should never actually get
-  // a BufferTooSmall result from the FFI.
-  fun apply(i: RegoEnum): (Ok | BufferTooSmall) =>
+  // a _BufferTooSmall result from the FFI.
+  fun apply(i: RegoEnum): (Ok | _BufferTooSmall) =>
     match i
     | 0 => Ok
     | 2 =>
       BadBufferUsage()
-      BufferTooSmall
+      _BufferTooSmall
     else
       Unreachable()
-      BufferTooSmall
+      _BufferTooSmall
     end
 
-primitive InvalidLogLevel
+primitive _InvalidLogLevel
   """
   This should never happen based on our usage of the FFI.
   If it does, it's a bug and we panic.
   """
 
-primitive ResultOkOrInvalidLogLevelParser
-  fun apply(i: RegoEnum): (Ok | InvalidLogLevel) =>
+primitive _ResultOkOrInvalidLogLevelParser
+  fun apply(i: RegoEnum): (Ok | _InvalidLogLevel) =>
     match i
     | 0 => Ok
     | 3 =>
       BadLogLevel()
-      InvalidLogLevel
+      _InvalidLogLevel
     else
       Unreachable()
-      InvalidLogLevel
+      _InvalidLogLevel
     end
