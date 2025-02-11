@@ -1,7 +1,7 @@
 class val Node
-  let _node: RegoNode val
+  let _node: RegoNode
 
-  new val _create(node: RegoNode val) =>
+  new val _create(node: RegoNode) =>
     _node = node
 
   fun node_type(): TermNodeType =>

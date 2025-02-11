@@ -66,9 +66,9 @@ type RegoSize is U32
 type RegoApiBuffer is Pointer[U8]
 
 // Types for the various void* pointers that the rego-cpp C-API exposes
-struct val RegoInterpreter
-struct val RegoOutput
-struct val RegoNode
+struct tag RegoInterpreter
+struct tag RegoOutput
+struct tag RegoNode
 
 primitive _RegoFFI
   """
