@@ -54,15 +54,15 @@ use @regoOutputJSON[RegoEnum](output: RegoOutputPtr tag,
 use @regoOutputString[RegoString](output: RegoOutputPtr tag)
 use @regoFreeOutput[None](output: RegoOutputPtr tag)
 // Node functions
-use @regoNodeType[RegoEnum](node: RegoNodePtr tag)
-use @regoNodeTypeName[RegoString](node: RegoNodePtr tag)
-use @regoNodeValueSize[RegoSize](node: RegoNodePtr tag)
-use @regoNodeValue[RegoEnum](node: RegoNodePtr tag, buffer: RegoApiBuffer tag,
+use @regoNodeType[RegoEnum](node: RegoNode)
+use @regoNodeTypeName[RegoString](node: RegoNode)
+use @regoNodeValueSize[RegoSize](node: RegoNode)
+use @regoNodeValue[RegoEnum](node: RegoNode, buffer: RegoApiBuffer tag,
   size: RegoSize)
-use @regoNodeSize[RegoSize](node: RegoNodePtr tag)
-use @regoNodeGet[NullableRegoNodePtr val](node: RegoNodePtr tag, index: RegoSize)
-use @regoNodeJSONSize[RegoSize](node: RegoNodePtr tag)
-use @regoNodeJSON[RegoEnum](node: RegoNodePtr tag, buffer: RegoApiBuffer tag,
+use @regoNodeSize[RegoSize](node: RegoNode)
+use @regoNodeGet[NullableRegoNodePtr val](node: RegoNode, index: RegoSize)
+use @regoNodeJSONSize[RegoSize](node: RegoNode)
+use @regoNodeJSON[RegoEnum](node: RegoNode, buffer: RegoApiBuffer tag,
   size: RegoSize)
 
 // Type aliases
@@ -424,13 +424,13 @@ primitive _RegoFFI
   // Node functions
   //
 
-  fun node_type(node: RegoNodePtr tag): TermNodeType =>
+  fun node_type(node: RegoNode): TermNodeType =>
     """
     Returns the node's type.
     """
     TermNodeParser(@regoNodeType(node))
 
-  fun node_type_name(node: RegoNodePtr tag): String =>
+  fun node_type_name(node: RegoNode): String =>
     """
     Returns the name of the node type as a human-readable string.
 
@@ -439,7 +439,7 @@ primitive _RegoFFI
     """
     recover val String.copy_cstring(@regoNodeTypeName(node)) end
 
-  fun node_value_size(node: RegoNodePtr tag): RegoSize =>
+  fun node_value_size(node: RegoNode): RegoSize =>
     """
     Returns the number of bytes needed to store a 0-terminated string
     representing the text value of the node.
@@ -449,24 +449,24 @@ primitive _RegoFFI
     """
     @regoNodeValueSize(node)
 
-  fun node_value(node: RegoNodePtr tag, buffer: RegoApiBuffer tag,
+  fun node_value(node: RegoNode, buffer: RegoApiBuffer tag,
     size: RegoSize): OkOrBufferTooSmall
   =>
     """
     Populate a buffer with the node value.
 
     The buffer must be large enough to hold the value. The size of the buffer
-    can be determined by calling `node_size_value`.
+    can be determined by calling `node_value_size`.
     """
     ResultOkOrBufferTooSmallParser(@regoNodeValue(node, buffer, size))
 
-  fun node_size(node: RegoNodePtr tag): RegoSize =>
+  fun node_size(node: RegoNode): RegoSize =>
     """
     Returns the number of children of the node.
     """
     @regoNodeSize(node)
 
-  fun node_get(node: RegoNodePtr tag, index: RegoSize): NullableRegoNodePtr val =>
+  fun node_get(node: RegoNode, index: RegoSize): NullableRegoNodePtr val =>
     """
     Returns the child node at the specified index.
 
@@ -474,7 +474,7 @@ primitive _RegoFFI
     """
     @regoNodeGet(node, index)
 
-  fun node_json_size(node: RegoNodePtr tag): RegoSize =>
+  fun node_json_size(node: RegoNode): RegoSize =>
     """
     Returns the number of bytes needed to store a 0-terminated string
     representing the JSON representation of the node.
@@ -484,13 +484,14 @@ primitive _RegoFFI
     """
     @regoNodeJSONSize(node)
 
-  fun node_json(node: RegoNodePtr tag, buffer: RegoApiBuffer tag,
+  fun node_json(node: RegoNode,
+    buffer: RegoApiBuffer tag,
     size: RegoSize): OkOrBufferTooSmall
   =>
     """
     Populate a buffer with the JSON representation of the node.
 
     The buffer must be large enough to hold the value. The size of the buffer
-    can be determined by calling regoNodeJSONSize.
+    can be determined by calling `node_json_size`.
     """
     ResultOkOrBufferTooSmallParser(@regoNodeJSON(node, buffer, size))
