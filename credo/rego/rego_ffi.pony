@@ -60,7 +60,7 @@ use @regoNodeValueSize[RegoSize](node: RegoNodePtr tag)
 use @regoNodeValue[RegoEnum](node: RegoNodePtr tag, buffer: RegoApiBuffer tag,
   size: RegoSize)
 use @regoNodeSize[RegoSize](node: RegoNodePtr tag)
-use @regoNodeGet[RegoNodePtr](node: RegoNodePtr tag, index: RegoSize)
+use @regoNodeGet[NullableRegoNodePtr](node: RegoNodePtr tag, index: RegoSize)
 use @regoNodeJSONSize[RegoSize](node: RegoNodePtr tag)
 use @regoNodeJSON[RegoEnum](node: RegoNodePtr tag, buffer: RegoApiBuffer tag,
   size: RegoSize)
@@ -421,6 +421,7 @@ primitive RegoFFI
   //
   // Node functions
   //
+
   fun node_type(node: RegoNodePtr tag): TermNodeType =>
     """
     Returns the node's type.
@@ -463,9 +464,11 @@ primitive RegoFFI
     """
     @regoNodeSize(node)
 
-  fun node_get(node: RegoNodePtr tag, index: RegoSize): RegoNodePtr =>
+  fun node_get(node: RegoNodePtr tag, index: RegoSize): NullableRegoNodePtr =>
     """
     Returns the child node at the specified index.
+
+    If there is no chold node that the specified index, then this function will return NULL.
     """
     @regoNodeGet(node, index)
 
