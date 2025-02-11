@@ -17,7 +17,7 @@ primitive InterpreterResultParser
     | 0 => Ok
     | 1 => InterpreterError(_RegoFFI.get_error(interpreter))
     else
-      Unreachable()
+      _Unreachable()
       InterpreterError(_RegoFFI.get_error(interpreter))
     end
 
@@ -34,10 +34,10 @@ primitive _ResultOkOrBufferTooSmallParser
     match i
     | 0 => Ok
     | 2 =>
-      BadBufferUsage()
+      _BadBufferUsage()
       _BufferTooSmall
     else
-      Unreachable()
+      _Unreachable()
       _BufferTooSmall
     end
 
@@ -52,9 +52,9 @@ primitive _ResultOkOrInvalidLogLevelParser
     match i
     | 0 => Ok
     | 3 =>
-      BadLogLevel()
+      _BadLogLevel()
       _InvalidLogLevel
     else
-      Unreachable()
+      _Unreachable()
       _InvalidLogLevel
     end

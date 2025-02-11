@@ -2,7 +2,7 @@ use @exit[None](status: U8)
 use @fprintf[I32](stream: Pointer[U8] tag, fmt: Pointer[U8] tag, ...)
 use @pony_os_stderr[Pointer[U8]]()
 
-primitive BadBufferUsage
+primitive _BadBufferUsage
   """
   Panic if we hit a bad buffer usage in our library code.
   """
@@ -17,7 +17,7 @@ primitive BadBufferUsage
       loc.line().string().cstring())
     @exit(1)
 
-primitive BadLogLevel
+primitive _BadLogLevel
   """
   Panic is the log level API is being used incorrectly by our library code.
   """
@@ -32,7 +32,7 @@ primitive BadLogLevel
       loc.line().string().cstring())
     @exit(1)
 
-primitive Unreachable
+primitive _Unreachable
   """
   To be used in places that the compiler can't prove is unreachable but we are
   certain is unreachable and if we reach it, we'd be silently hiding a bug.

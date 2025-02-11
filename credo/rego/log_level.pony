@@ -36,6 +36,6 @@ primitive LogLevelParser
     | 5 => DebugLevel
     | 6 => TraceLevel
     else
-      Unreachable()
+      _Unreachable()
       UnknownLevel
     end

@@ -160,7 +160,7 @@ primitive InternalNode is TermNodeType
 
 primitive UnknownNode is TermNodeType
   """
-  An unknown node. This should never be returned. It exists in an Unreachable
+  An unknown node. This should never be returned. It exists in an _Unreachable
   branch solely to satisfy the compiler.
   """
 
@@ -192,6 +192,6 @@ primitive TermNodeParser
     | 1803 => ErrorCodeNode
     | 1804 => ErrorSeqNode
     else
-      Unreachable()
+      _Unreachable()
       UnknownNode
     end
