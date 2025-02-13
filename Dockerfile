@@ -15,9 +15,9 @@ WORKDIR /src/credo
 RUN make arch=x86-64 static=true linker=bfd config=release \
  && make install
 
-FROM alpine:3.20
+FROM scratch
 
 COPY --from=build /usr/local/bin/credo /usr/local/bin/credo
 COPY LICENSE /
 
-CMD credo
+ENTRYPOINT ["/usr/local/bin/credo"]
