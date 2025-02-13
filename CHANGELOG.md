@@ -2,17 +2,11 @@
 
 All notable changes to Credo will be documented in this file.
 
-## [unreleased] - unreleased
-
-### Fixed
-
+## [0.1.2] - 2025-02-13
 
 ### Added
 
 - Set Meaningful Hostname on Container Startup ([PR #16](https://github.com/seantallen-org/credo/pull/16))
-
-### Changed
-
 
 ## [0.1.1] - 2025-02-01
 
