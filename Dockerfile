@@ -4,7 +4,7 @@ LABEL org.opencontainers.image.source="https://github.com/seantallen-org/credo"
 
 WORKDIR /src/credo
 
-COPY Makefile LICENSE VERSION corral.json /src/credo/
+COPY Makefile VERSION corral.json /src/credo/
 
 WORKDIR /src/credo/credo
 
@@ -18,5 +18,6 @@ RUN make arch=x86-64 static=true linker=bfd config=release \
 FROM alpine:3.20
 
 COPY --from=build /usr/local/bin/credo /usr/local/bin/credo
+COPY LICENSE /
 
 CMD credo
