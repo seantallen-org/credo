@@ -24,6 +24,8 @@ primitive StartContainer
         devenv.user
         "--name"
         running_name
+        "--hostname"
+        running_name
         "-w"
         devenv.workdir
         "--mount"
