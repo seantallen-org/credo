@@ -9,6 +9,7 @@ All notable changes to Credo will be documented in this file.
 
 ### Added
 
+- Set Meaningful Hostname on Container Startup ([PR #16](https://github.com/seantallen-org/credo/pull/16))
 
 ### Changed
 
