@@ -12,6 +12,7 @@ All notable changes to Credo will be documented in this file.
 
 ### Changed
 
+- Update Docker Image to Be Based on `scratch` ([PR #18](https://github.com/seantallen-org/credo/pull/18))
 
 ## [0.1.2] - 2025-02-13
 
