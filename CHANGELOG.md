@@ -2,6 +2,17 @@
 
 All notable changes to Credo will be documented in this file.
 
+## [unreleased] - unreleased
+
+### Fixed
+
+
+### Added
+
+
+### Changed
+
+
 ## [0.1.2] - 2025-02-13
 
 ### Added
