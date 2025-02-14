@@ -63,12 +63,12 @@ credo start corral-env
 
 The name of the environment must correspond to the `name` key for an environment in your configuration file.
 
-### new
+### shell
 
 Attaches a new shell to a running development environment. This is useful if you want to have multiple shells open in the same environment.
 
 ```console
-credo new corral-env
+credo shell corral-env
 ```
 
 The name of the environment must correspond to the `name` key for an environment in your configuration file.
