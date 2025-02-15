@@ -34,6 +34,9 @@ primitive StartContainer
 
       let args2: Array[String] =
         [
+        "--cap-add=SYS_PTRACE"
+        "--security-opt"
+        "seccomp=unconfined"
         "--rm"
         "-i"
         "-t"
