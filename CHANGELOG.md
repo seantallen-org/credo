@@ -10,6 +10,7 @@ All notable changes to Credo will be documented in this file.
 ### Added
 
 - Allow debuggers to run in containerized environments ([PR #19](https://github.com/seantallen-org/credo/pull/19))
+- Always pull image when starting a development environment ([PR #20](https://github.com/seantallen-org/credo/pull/20))
 
 ### Changed
 
