@@ -20,6 +20,7 @@ primitive StartContainer
         [
         "docker"
         "run"
+        "--pull=always"
         "--user"
         devenv.user
         "--name"
